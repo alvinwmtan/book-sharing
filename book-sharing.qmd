@@ -1,0 +1,534 @@
+---
+title: "The rich language of book sharing"
+format: html
+editor: source
+---
+
+```{r setup}
+options(dplyr.summarise.inform = FALSE)
+require(tidyverse)
+walk(c("here", "glue",
+       "XML", "readxl", # data handling
+       "koRpus.lang.en", # corpus metrics
+       "ggpubr", "GGally", "patchwork", # plots
+       "rstatix", "lme4", "emmeans", "lmerTest", "broom.mixed"), # statistics
+     require, character.only = TRUE)
+walk(here("scripts", list.files(here("scripts"))), source)
+theme_set(theme_classic())
+set.seed(42)
+
+if(!dir.exists(here("plots"))) dir.create(here("plots"))
+if(!dir.exists(here("models"))) dir.create(here("models"))
+```
+
+## Get data
+
+```{r data}
+all_en_data <- SOURCES |>
+  lapply(\(x) {get_data(here("data", "English", "_df_output"), x)}) |> 
+  bind_rows() |> 
+  mutate(language = "English")
+all_es_data <- SOURCES |>
+  lapply(\(x) {get_data(here("data", "Spanish", "_df_output"), x)}) |> 
+  bind_rows() |> 
+  mutate(language = "Spanish")
+all_data <- rbind(all_en_data, all_es_data) |> 
+  mutate(source = as.factor(source),
+         language = as.factor(language))
+```
+
+## Demographics
+
+```{r demog}
+demog <- read_csv(here("data", "demog.csv")) |> 
+  mutate(sex = as.factor(sex),
+         ethnicity = as.factor(ethnicity))
+
+demog_summary <- demog |> 
+  group_by(language) |> 
+  summarise(across(c(age, mom_ed, hollingshead, wg_18_prod), 
+                   list(mean = ~ mean(.x, na.rm = TRUE), 
+                        sd = ~ sd(.x, na.rm = TRUE))),
+            n = n(),
+            n_f = sum(sex == "female"))
+```
+
+## Descriptives
+
+```{r descr}
+all_lengths <- all_data |> 
+  group_by(language, source, file_name) |> 
+  summarise(n_tokens = n())
+source_lengths <- all_lengths |> 
+  group_by(language, source) |> 
+  summarise(n_tokens = sum(n_tokens))
+source_num <- all_lengths |> 
+  group_by(language, source) |> 
+  summarise(n_tokens = n())
+```
+
+## Mega-transcript
+
+### Sampling
+
+```{r sampling_analysis}
+sim_data <- all_data |> 
+  filter(file_name != "7579_context1_18684_BILINGUAL_first_100_words_clean.xml")
+
+sim_data_df <- sim_data |> 
+  nest(tokens = c(-language, -source)) |> 
+  mutate(sims = mapply(simulate_samples, 
+                       data_df = tokens, 
+                       size_end = ifelse(language == "English", 
+                                         11000, 7700),
+                                         # ifelse(source == "Spont-adult", 5100, 11000), 
+                                         # ifelse(source == "Spont-adult", 6500, 7700)),
+                       SIMPLIFY = FALSE)) |> 
+  select(-tokens) |> 
+  unnest(cols = "sims")
+
+all_sim <- sim_data_df |>
+  mutate(source = factor(source, 
+                         levels = c("Book text", "Read-aloud", 
+                                    "Spont-book", "Spont-other")))
+```
+
+```{r sampling_plots}
+types_plot_en_rep <- ggplot(data = all_sim |> 
+                              filter(source == "ReadOxford" | 
+                                       source == "CHILDES"), 
+                            aes(x = size, y = types, 
+                                color = source, linetype = source)) +
+  geom_line() +
+  labs(x = "Total word tokens", y = "Unique word types") +
+  COL_SCALE + LTY_SCALE
+
+types_plot_en_overlay <- ggplot(data = all_sim |> 
+                                  filter(language == "English",
+                                         source == "ReadOxford" | 
+                                           source == "CHILDES" |
+                                           source == "Book text" | 
+                                           source == "Spont-other"), 
+                                aes(x = size, y = types, 
+                                    color = source, linetype = source)) +
+  geom_line() +
+  labs(x = "Total word tokens", y = "Unique word types") +
+  COL_SCALE + LTY_SCALE
+
+types_plot_en <- ggplot(data = all_sim |> filter(language == "English",
+                                                 source != "CHILDES",
+                                                 source != "ReadOxford"), 
+                        aes(x = size, y = types, 
+                            color = source, linetype = source)) +
+  geom_line() +
+  labs(x = "Total word tokens", y = "Unique word types") +
+  coord_cartesian(xlim = c(0, 8000), ylim = c(0, 1900)) +
+  COL_SCALE + LTY_SCALE
+types_plot_en
+
+ttr_plot_en <- ggplot(data = all_sim |> filter(language == "English",
+                                                 source != "CHILDES",
+                                                 source != "ReadOxford"), 
+                      aes(x = size, y = ttr, 
+                          color = source, linetype = source)) +
+  geom_line() +
+  labs(x = "Total word tokens", y = "Type-token ratio") +
+  coord_cartesian(xlim = c(0, 8000), ylim = c(0, 0.7)) +
+  COL_SCALE + LTY_SCALE
+ttr_plot_en
+
+types_plot_es <- ggplot(data = all_sim |> filter(language == "Spanish"), 
+                        aes(x = size, y = types, 
+                            color = source)) +
+  geom_line() +
+  labs(x = "Total word tokens", y = "Unique word types") +
+  coord_cartesian(xlim = c(0, 8000), ylim = c(0, 1900)) +
+  COL_SCALE_2
+types_plot_es
+
+ttr_plot_es <- ggplot(data = all_sim |> filter(language == "Spanish"), 
+                      aes(x = size, y = ttr, 
+                          color = source)) +
+  geom_line() +
+  labs(x = "Total word tokens", y = "Type-token ratio") +
+  coord_cartesian(xlim = c(0, 8000), ylim = c(0, 0.7)) +
+  COL_SCALE_2
+ttr_plot_es
+
+types_out <- (types_plot_en + labs(title = "English")) +
+  (types_plot_es + labs(title = "Spanish")) +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A")
+ggsave("plots/types.pdf", types_out,
+       width = 10,
+       height = 4,
+       units = "in")
+ttr_out <- (ttr_plot_en + labs(title = "English")) +
+  (ttr_plot_es + labs(title = "Spanish")) +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A")
+ggsave("plots/ttr.pdf", ttr_out,
+       width = 10,
+       height = 4,
+       units = "in")
+```
+
+## By-transcript
+
+### Get metrics
+
+```{r metrics}
+mtld_vals <- apply_and_merge(all_data, \(x) get_ld(x, "MTLD"))
+density_vals <- apply_and_merge(all_data, get_lexicality)
+ls_vals <- apply_and_merge(all_data, get_sophistication) |> arrange(language, metric)
+mlu_vals <- apply_and_merge(all_data, get_mlu_nontoken)
+complexity_vals <- apply_and_merge(all_data, get_complexity)
+```
+
+```{r metric_descriptives}
+mtld_desc <- make_descriptives(mtld_vals)
+density_desc <- make_descriptives(density_vals)
+ls_desc <- make_descriptives(ls_vals)
+mlu_desc <- make_descriptives(mlu_vals)
+complexity_desc <- make_descriptives(complexity_vals)
+
+full_desc <- bind_rows(mtld_desc, density_desc, 
+                       ls_desc |> arrange(desc(metric)),
+                       mlu_desc, complexity_desc)
+full_desc_out <- full_desc |> 
+  ungroup() |> 
+  mutate(across(c("median", "mad", "min", "max"),
+                \(m) format(round(m, 2), digits = 2, trim = TRUE)),
+         value = glue("{median} ({mad}, {min}–{max})"),
+         Metric = case_when(
+           metric == "lexical_density" ~ "Lexical density",
+           metric == "freq" ~ "Mean lexical frequency",
+           metric == "cd" ~ "Mean lexical contextual diversity",
+           metric == "mlu" ~ "MLU-w",
+           metric == "prop_complex" ~ "Proportion of complex utterances",
+           .default = metric
+         )) |> 
+  select(Metric, language, source, value) |> 
+  pivot_wider(names_from = c(language, source),
+              values_from = value)
+write_csv(full_desc_out, "full_desc_out.csv")
+```
+
+### By-source and -language models
+
+```{r sl_analysis}
+mtld_sl_analysis <- run_analysis(mtld_vals, ylab = "MTLD", by_language = TRUE)
+mtld_sl_analysis$model |> summary()
+mtld_sl_analysis$plot
+
+density_sl_analysis <- run_analysis(density_vals, ylab = "Lexical density", 
+                                    by_language = TRUE)
+density_sl_analysis$model |> summary()
+density_sl_analysis$plot
+
+freq_sl_analysis <- run_analysis(ls_vals |> filter(metric == "freq"), 
+                                 ylab = "Mean corpus frequency", 
+                                 by_language = TRUE)
+freq_sl_analysis$model |> summary()
+freq_sl_analysis$plot
+
+cd_sl_analysis <- run_analysis(ls_vals |> filter(metric == "cd"), 
+                               ylab = "Mean corpus contextual diversity", 
+                               by_language = TRUE)
+cd_sl_analysis$model |> summary()
+cd_sl_analysis$plot
+
+mlu_sl_analysis <- run_analysis(mlu_vals, ylab = "MLU-w", by_language = TRUE)
+mlu_sl_analysis$model |> summary()
+mlu_sl_analysis$plot
+
+complexity_sl_analysis <- run_analysis(complexity_vals, 
+                                       ylab = "Proportion of complex utterances", 
+                                       by_language = TRUE)
+complexity_sl_analysis$model |> summary()
+complexity_sl_analysis$plot
+```
+
+### By-source analyses
+
+```{r s_analysis}
+mtld_s_analysis <- run_analysis(mtld_vals, ylab = "MTLD")
+mtld_s_analysis$model |> summary()
+mtld_s_analysis$plot
+
+density_s_analysis <- run_analysis(density_vals, ylab = "Lexical density")
+density_s_analysis$model |> summary()
+density_s_analysis$plot
+
+freq_s_analysis <- run_analysis(ls_vals |> filter(metric == "freq"),
+                                 ylab = "Mean corpus frequency")
+freq_s_analysis$model |> summary()
+freq_s_analysis$plot
+
+cd_s_analysis <- run_analysis(ls_vals |> filter(metric == "cd"),
+                               ylab = "Mean corpus contextual diversity")
+cd_s_analysis$model |> summary()
+cd_s_analysis$plot
+
+freq_en_analysis <- run_analysis(ls_vals |> filter(metric == "freq",
+                                                   language == "English"), 
+                                 ylab = "Mean corpus frequency")
+freq_en_analysis$model |> summary()
+freq_en_analysis$plot
+
+cd_en_analysis <- run_analysis(ls_vals |> filter(metric == "cd",
+                                                 language == "English"), 
+                               ylab = "Mean corpus contextual diversity")
+cd_en_analysis$model |> summary()
+cd_en_analysis$plot
+
+freq_sp_analysis <- run_analysis(ls_vals |> filter(metric == "freq",
+                                                   language == "Spanish"), 
+                                 ylab = "Mean corpus frequency")
+freq_sp_analysis$model |> summary()
+freq_sp_analysis$plot
+
+cd_sp_analysis <- run_analysis(ls_vals |> filter(metric == "cd",
+                                                 language == "Spanish"), 
+                               ylab = "Mean corpus contextual diversity")
+cd_sp_analysis$model |> summary()
+cd_sp_analysis$plot
+
+mlu_s_analysis <- run_analysis(mlu_vals, ylab = "MLU-w")
+mlu_s_analysis$model |> summary()
+mlu_s_analysis$plot
+
+complexity_s_analysis <- run_analysis(complexity_vals, 
+                                       ylab = "Proportion of complex utterances")
+complexity_s_analysis$model |> summary()
+complexity_s_analysis$plot
+```
+
+```{r line_plots}
+mtld_line <- make_int_line_plot(mtld_sl_analysis, mtld_s_analysis, "MTLD")
+density_line <- make_line_plot(density_sl_analysis, density_s_analysis, "Lexical density")
+freq_line <- make_line_plot(freq_sl_analysis, freq_s_analysis, "Mean corpus frequency")
+cd_line <- make_line_plot(cd_sl_analysis, cd_s_analysis, "Mean corpus contextual diversity")
+mlu_line <- make_line_plot(mlu_sl_analysis, mlu_s_analysis, "MLU-w")
+complexity_line <- make_line_plot(complexity_sl_analysis, complexity_s_analysis, "Proportion of complex utterances")
+
+freq_en_line <- make_ls_line_plot(freq_sl_analysis, freq_en_analysis, "Mean corpus frequency")
+cd_en_line <- make_ls_line_plot(cd_sl_analysis, cd_en_analysis, "Mean corpus contextual diversity")
+freq_sp_line <- make_ls_line_plot(freq_sl_analysis, freq_sp_analysis, "Mean corpus frequency")
+cd_sp_line <- make_ls_line_plot(cd_sl_analysis, cd_sp_analysis, "Mean corpus contextual diversity")
+
+lex_divden_out <- (mtld_line + labs(title = "MTLD")) +
+  (density_line + labs(title = "Lexical density")) +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A")
+ggsave("plots/lex_divden.pdf", lex_divden_out,
+       width = 12,
+       height = 5,
+       units = "in")
+lex_soph_out <- (freq_line + labs(title = "Mean lexical frequency")) +
+  (cd_line + labs(title = "Mean lexical contextual diversity")) +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A")
+ggsave("plots/lex_soph.pdf", lex_soph_out,
+       width = 12,
+       height = 5,
+       units = "in")
+gram_comp_out <- (mlu_line + labs(title = "MLU-w")) +
+  (complexity_line + labs(title = "Proportion of complex utterances")) +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A")
+ggsave("plots/gram_comp.pdf", gram_comp_out,
+       width = 12,
+       height = 5,
+       units = "in")
+```
+
+```{r write_models}
+write_model_output <- function(analysis, metric) {
+  analysis$model |> tidy() |> 
+    mutate(metric = metric) |> 
+    write_csv(glue("models/{metric}.csv"))
+}
+write_model_output(mtld_s_analysis, "mtld")
+write_model_output(density_s_analysis, "density")
+write_model_output(freq_s_analysis, "freq")
+write_model_output(cd_s_analysis, "cd")
+write_model_output(mlu_s_analysis, "mlu")
+write_model_output(complexity_s_analysis, "complexity")
+```
+
+### By-family correlations
+
+```{r cor}
+lex_vals <- list(mtld_vals, density_vals, ls_vals, ls_vals)
+lex_metrics <- c("MTLD", "lexical_density", "freq", "cd")
+lex_index <- get_composite_index(lex_vals, lex_metrics)
+lex_plot <- ggpairs(lex_index,
+                    columns = SOURCES,
+                    upper = list(continuous = make_cor_fill),
+                    lower = list(continuous = make_scatter_smooth))
+
+gram_vals <- list(mlu_vals, complexity_vals)
+gram_metrics <- c("mlu", "prop_complex")
+gram_index <- get_composite_index(gram_vals, gram_metrics)
+gram_plot <- ggpairs(gram_index,
+                    columns = SOURCES,
+                    upper = list(continuous = make_cor_fill),
+                    lower = list(continuous = make_scatter_smooth))
+
+# write_cor_output <- function(cor, index) {
+#   cor |> as_tibble(rownames = "source") |> 
+#     write_csv(glue("cor/{metric}.csv"))
+# }
+# write_cor_output(lex_cor, "lex_index")
+# write_cor_output(gram_cor, "gram_index")
+```
+
+## Exploratory analyses
+
+### MTLD and book type
+
+```{r narrative}
+book_list <- read_csv(here("data", "book_list.csv")) |> 
+  mutate(cid = glue("{id}_context{context}"))
+
+context_list <- book_list |> 
+  nest(data = -cid) |> 
+  mutate(prop_prose = sapply(data, \(df) {
+    prose <- case_when(df$category_new == "prose" ~ 1,
+                       df$category_new == "unknown" ~ NA,
+                       .default = FALSE)
+    sum(prose, na.rm = TRUE) / sum(!is.na(prose))
+  }), prop_biling = sapply(data, \(df) {
+    biling <- df$language_book == "spanish;english"
+    sum(biling, na.rm = TRUE) / length(biling)
+  })) |> 
+  select(-data)
+
+mtld_bt <- mtld_vals |> 
+  mutate(cid = str_match(file_name, ("([0-9]+_context[0-9]+)"))[,2],
+         book_title = str_match(file_name, 
+                                ("(?:[A-Z]+_)(.*)(?:_clean.)"))[,2]) |> 
+  left_join(book_list |> select(-cid), by = "book_title") |> 
+  left_join(context_list, by = "cid") |> 
+  mutate(cat_prose = case_when(category_new == "prose" ~ TRUE,
+                               category_new == "rhyme" ~ FALSE,
+                               category_new == "frame" ~ FALSE,
+                               category_new == "naming" ~ FALSE,
+                               .default = NA),
+         prop_prose = coalesce(cat_prose, prop_prose),
+         prop_prose = ifelse(source %in% c("Book text", "Read-aloud", "Spont-book"),
+                           prop_prose, NA),
+         lgr_biling = language_read == "spanish;english",
+         prop_biling = coalesce(lgr_biling, prop_biling),
+         prop_biling = ifelse(source %in% c("Book text", "Read-aloud", "Spont-book"),
+                           prop_biling, NA)) |> 
+  select(-cat_prose, -lgr_biling)
+
+mtld_bt_vals <- mtld_bt |> 
+    mutate(is.extreme = is_extreme(value)) |> 
+    filter(!is.extreme) |> 
+    mutate(source = `contrasts<-`(source |> as.factor() |> fct_shift(1), 
+                                  value = source |> unique() |> 
+                                    length() |> contr.sum() * 0.5) |> fct_shift(-1),
+           language = `contrasts<-`(language |> as.factor(), 
+                                    value = language |> unique() |> 
+                                      length() |> contr.sum() * 0.5))
+
+mtld_bt_vals_book <- mtld_bt_vals |> 
+  filter(source %in% c("Book text", "Read-aloud", "Spont-book")) |> 
+  mutate(source = `contrasts<-`(source |> fct_drop() |> fct_shift(1), 
+                                  value = source |> unique() |> 
+                                    length() |> contr.sum() * 0.5) |> fct_shift(-1))
+
+mtld_bt_model <- lmer(value ~ source * language * prop_prose + 
+                        (1 | family_id) + (1 | family_id:file_name), 
+                      data = mtld_bt_vals_book)
+mtld_bt_emms <- emmeans(mtld_bt_model, ~ source * language * prop_prose, cov.reduce = range)
+  
+mtld_bt_cons <- contrast(mtld_bt_emms, method = "pairwise",
+                         simple = list("source", "language", "prop_prose"), 
+                         combine = T) |>
+  as_tibble() |>
+  separate(contrast, c("group1", "group2"), " - ") |> 
+  mutate(
+    group1 = gsub("[)(]", "", group1),
+    group2 = gsub("[)(]", "", group2),
+    p.signif = cut(p.value,
+                   breaks = c(-Inf, .0001, .001, .01, .05, .1, 1),
+                   labels = c("****", "***", "**", "*", "ns", "ns")))
+
+mtld_bt_plot <- ggplot(data = mtld_bt_emms |> as_tibble() |> 
+                         mutate(prop_prose = factor(prop_prose,
+                                                  labels = c("Non-prose", "Prose"))), 
+                  aes(y = emmean, 
+                      x = source, 
+                      group = language)) + 
+  facet_grid(~ prop_prose) +
+  geom_line(aes(col = language), position = position_dodge(0.2)) +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE,
+                    col = language),
+                width = .1, position = position_dodge(0.2)) +
+  # stat_pvalue_manual(cons_bt,
+  #                    y.position = 1.3 * max(emms_bt_tib$emmean),
+  #                    step.increase = 0.1,
+  #                    color = "language",
+  #                    tip.length = 0) +
+  # TYP_SCALE +
+  labs(x = "Source", y = "MTLD", col = "Language") +
+  theme_classic()
+
+ggsave("plots/mtld_bt.pdf", mtld_bt_plot,
+       width = 9,
+       height = 5,
+       units = "in")
+```
+
+### MTLD and book language
+
+```{r biling}
+
+### BILING
+mtld_bl_model <- lmer(value ~ source * language * prop_biling + 
+                        (1 | family_id) + (1 | family_id:file_name), 
+                      data = mtld_bt_vals_book)
+mtld_bl_emms <- emmeans(mtld_bl_model, ~ source * language * prop_biling, cov.reduce = range)
+  
+mtld_bl_cons <- contrast(mtld_bl_emms, method = "pairwise",
+                         simple = list("source", "language", "prop_biling"), 
+                         combine = T) |>
+  as_tibble() |>
+  separate(contrast, c("group1", "group2"), " - ") |> 
+  mutate(
+    group1 = gsub("[)(]", "", group1),
+    group2 = gsub("[)(]", "", group2),
+    p.signif = cut(p.value,
+                   breaks = c(-Inf, .0001, .001, .01, .05, .1, 1),
+                   labels = c("****", "***", "**", "*", "ns", "ns")))
+
+mtld_bl_plot <- ggplot(data = mtld_bl_emms |> as_tibble() |> 
+                         mutate(prop_biling = factor(prop_biling,
+                                                     labels = c("Monolingual", "Bilingual"))), 
+                  aes(y = emmean, 
+                      x = source, 
+                      group = language)) + 
+  facet_grid(~ prop_biling) +
+  geom_line(aes(col = language), position = position_dodge(0.2)) +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE,
+                    col = language),
+                width = .1, position = position_dodge(0.2)) +
+  # stat_pvalue_manual(cons_bl,
+  #                    y.position = 1.3 * max(emms_bl_tib$emmean),
+  #                    step.increase = 0.1,
+  #                    color = "language",
+  #                    tip.length = 0) +
+  # TYP_SCALE +
+  labs(x = "Source", y = "MTLD", col = "Language") +
+  theme_classic()
+
+ggsave("plots/mtld_bl.pdf", mtld_bl_plot,
+       width = 9,
+       height = 5,
+       units = "in")
+```
+
