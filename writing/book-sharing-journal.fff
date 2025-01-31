@@ -1,0 +1,149 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-examples}Examples of the four sources of language:
+(1) book text, (2) read aloud text:, (3) spontaneous speech during book
+sharing, and (4) spontaneous speech during other activities, for both
+the English and Spanish samples.}
+
+\centering{
+
+\includegraphics[width=1\textwidth,height=\textheight]{figs/examples.png}
+
+\textit{Note:} Book text and the caregiver's (MOT = mother; FAT =
+father) read aloud speech is bolded. The caregivers' spontaneous tCDS is
+italicized. Child speech (CHI) is in regular font. Book text in English
+is from \textit{When We’re Together} by Claire Freedman. Book text in
+Spanish is from \textit{Clifford y la Hora del Baño} by Norman Bridwell.
+
+}
+
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-types}Number of unique word types as a function of
+token sample size per mega-transcript type in (A) English-speaking
+(\(n\) = 22) and (B) Spanish-speaking (\(n\) = 20) families.}
+
+\centering{
+
+\includegraphics{book-sharing-journal_files/figure-pdf/unnamed-chunk-1-1.pdf}
+
+}
+
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-ttr}Type--token ratio (TTR) over total word tokens
+of samples for the four language sources, for (A) English-speaking
+(\(n\) = 22) and (B) Spanish-speaking (\(n\) = 20) families.}
+
+\centering{
+
+\includegraphics{book-sharing-journal_files/figure-pdf/unnamed-chunk-2-1.pdf}
+
+}
+
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-lex-divden}Estimated marginal means for (A) lexical
+diversity (MTLD) and (B) lexical density as a function of source and
+language group. Error bars reflect standard errors. Non-significant
+contrasts in (A) have been omitted for presentational clarity.}
+
+\centering{
+
+\includegraphics{book-sharing-journal_files/figure-pdf/unnamed-chunk-4-1.pdf}
+
+*: \(p < .05\), **: \(p < .01\), ***: \(p < .001\), ****: \(p < .0001\)
+
+}
+
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-lex-soph}Estimated marginal means for (A) mean
+lexical frequency and (B) contextual diversity and as a function of
+source and language group. Error bars reflect standard errors.}
+
+\centering{
+
+\includegraphics{book-sharing-journal_files/figure-pdf/unnamed-chunk-6-1.pdf}
+
+*: \(p < .05\), **: \(p < .01\), ***: \(p < .001\), ****: \(p < .0001\)
+
+}
+
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-gram}Estimated marginal means for (A) mean length of
+utterances in words (MLU-w) and (B) proportion of complex utterances as
+a function of source and language group. Error bars reflect standard
+errors.}
+
+\centering{
+
+\includegraphics{book-sharing-journal_files/figure-pdf/unnamed-chunk-8-1.pdf}
+
+*: \(p < .05\), **: \(p < .01\), ***: \(p < .001\), ****: \(p < .0001\)
+
+}
+
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-mtld-lang}Estimated marginal means for MTLD for
+transcripts from different sources by book language. Error bars reflect
+standard errors.}
+
+\centering{
+
+\includegraphics{book-sharing-journal_files/figure-pdf/unnamed-chunk-11-1.pdf}
+
+}
+
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+
+
+\caption{\label{fig-mtld-type}Estimated marginal means for MTLD for
+transcripts from different sources by book type. Error bars reflect
+standard errors.}
+
+\centering{
+
+\includegraphics{book-sharing-journal_files/figure-pdf/unnamed-chunk-13-1.pdf}
+
+}
+
+\end{figure*}

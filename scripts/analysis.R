@@ -60,8 +60,8 @@ run_analysis <- function(metric_vals, ylab, by_language = FALSE) {
     mutate(source = `contrasts<-`(source |> as.factor() |> fct_shift(1), 
                                   value = source |> unique() |> 
                                     length() |> contr.sum() * 0.5) |> fct_shift(-1))
-           
-
+  
+  
   if (by_language) {
     mod_vals <- mod_vals |> 
       mutate(language = `contrasts<-`(language |> as.factor(), 
@@ -227,4 +227,33 @@ get_cor <- function(index_vals) {
                   use = "na.or.complete",
                   method = "spearman")
   vals_cor
+}
+
+print_res <- function(pairwise, lang, gp1, gp2) {
+  if (is.null(lang)) {
+    p_string = pairwise |> 
+      filter(group1 == gp1,
+             group2 == gp2) |> 
+      pull(p.value) |> 
+      apa_p(add_equals = TRUE)
+    out <- glue("$p <<p_string>>$",
+                .open = "<<", .close = ">>")
+  } else {
+    lang_string = if (lang == "English") "EN" else "ES"
+    p_string = pairwise |> 
+      filter(language == lang,
+             group1 == gp1,
+             group2 == gp2) |> 
+      pull(p.value) |> 
+      apa_p(add_equals = TRUE)
+    out <- glue("$p_\\textup{<<lang_string>>} <<p_string>>$",
+                .open = "<<", .close = ">>")
+  }
+  out
+}
+
+print_main <- function(model, pred) {
+  mod_tidy <- model |> tidy(conf.int = TRUE) |> 
+    filter(term == pred)
+  glue("$b$ = {apa_num(mod_tidy$estimate)} [{apa_num(mod_tidy$conf.low)}, {apa_num(mod_tidy$conf.high)}], $p$ {apa_p(mod_tidy$p.value, add_equals = TRUE)}")
 }

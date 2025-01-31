@@ -19,6 +19,7 @@ set.seed(42)
 
 if(!dir.exists(here("plots"))) dir.create(here("plots"))
 if(!dir.exists(here("models"))) dir.create(here("models"))
+INTERMEDIATES_LOC <- here("intermediates")
 ```
 
 ## Get data
@@ -71,7 +72,7 @@ source_num <- all_lengths |>
 
 ### Sampling
 
-```{r sampling_analysis}
+```{r sampling_analysis, eval=F}
 sim_data <- all_data |> 
   filter(file_name != "7579_context1_18684_BILINGUAL_first_100_words_clean.xml")
 
@@ -91,6 +92,11 @@ all_sim <- sim_data_df |>
   mutate(source = factor(source, 
                          levels = c("Book text", "Read-aloud", 
                                     "Spont-book", "Spont-other")))
+saveRDS(all_sim, here(INTERMEDIATES_LOC, "all_sim.rds"))
+```
+
+```{r}
+all_sim <- readRDS(here(INTERMEDIATES_LOC, "all_sim.rds"))
 ```
 
 ```{r sampling_plots}
