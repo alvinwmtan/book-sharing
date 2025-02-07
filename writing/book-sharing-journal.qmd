@@ -41,7 +41,7 @@ author-note:
     deceased: ~
   disclosures:
     study-registration: ~
-    data-sharing: "Code for this manuscript is available at [osf.io/q26jx](https://osf.io/q26jx/?view_only=beafd88b65c74959b9c49e2f4e50a0cf). Book transcripts cannot be shared due to copyright restrictions. Speech transcripts are forthcoming on the CHILDES data repository."
+    data-sharing: "Code and pre-processed data for this manuscript are available at [osf.io/q26jx](https://osf.io/q26jx/?view_only=beafd88b65c74959b9c49e2f4e50a0cf). Raw book transcripts cannot be shared due to copyright restrictions. Raw speech transcripts are forthcoming on the CHILDES data repository."
     ethics: "Ethics approval was obtained from the Institutional Review Board of Stanford University (IRB #11109). All participants gave informed written consent before taking part in the study."
     related-report: ~
     conflict-of-interest: "The authors declare no conflicts of interest."
