@@ -191,6 +191,15 @@ mlu_vals <- apply_and_merge(all_data, get_mlu_nontoken)
 complexity_vals <- apply_and_merge(all_data, get_complexity)
 ```
 
+```{r}
+saveRDS(mtld_vals, here(INTERMEDIATES_LOC, "mtld_vals.rds"))
+saveRDS(density_vals, here(INTERMEDIATES_LOC, "density_vals.rds"))
+saveRDS(ls_vals, here(INTERMEDIATES_LOC, "ls_vals.rds"))
+saveRDS(mlu_vals, here(INTERMEDIATES_LOC, "mlu_vals.rds"))
+saveRDS(complexity_vals, here(INTERMEDIATES_LOC, "complexity_vals.rds"))
+```
+
+
 ```{r metric_descriptives}
 mtld_desc <- make_descriptives(mtld_vals)
 density_desc <- make_descriptives(density_vals)

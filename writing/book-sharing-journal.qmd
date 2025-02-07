@@ -1,7 +1,7 @@
 ---
 title: |
   | The power of the page: Comparing richness in text and talk 
-  | during book sharing with two-year old children
+  | during book sharing with two-year-old children
 shorttitle: "Richness of Book Sharing"
 author:
   - name: Alvin W. M. Tan
@@ -41,15 +41,18 @@ author-note:
     deceased: ~
   disclosures:
     study-registration: ~
-    data-sharing: ~
+    data-sharing: "Code for this manuscript is available at [osf.io/q26jx](https://osf.io/q26jx/?view_only=beafd88b65c74959b9c49e2f4e50a0cf). Book transcripts cannot be shared due to copyright restrictions. Speech transcripts are forthcoming on the CHILDES data repository."
+    ethics: "Ethics approval was obtained from the Institutional Review Board of Stanford University (IRB #11109). All participants gave informed written consent before taking part in the study."
     related-report: ~
-    conflict-of-interest: ~
+    conflict-of-interest: "The authors declare no conflicts of interest."
     financial-support: ~
-    gratitude: ~
-    authorship-agreements: ~
+    gratitude: "We are grateful to the children and parents who participated and the research assistants who helped code and transcribe: Arlyn Mora, Mónica Munévar, Jessica Magallón, Nadia Segura, Shriya Anand, Marisol Rodriguez, Maria Lopez, Stephen Lopez, Jesús Esquivel-Barrientos, Laura Jonsson, Kalpana Gopalkrishnan, Maribel Mercardo, Tami Alade, Jaqueline De Paz-Romero, Lesly Leon, Alice Articia, Julia Briones-Avila, and Elizabeth Sanchez. We also thank our colleagues for helpful discussions including Sarah Surrain, Michael C. Frank, Talya Gómez, and the staff of the Language Learning Laboratory at Stanford University. This work was supported by grants from the National Institutes of Health (R01 DC008838, R01 HD092343, 2R01 HD069150), the Schusterman Foundation, the David and Lucile Packard Foundation, the Bezos Family Foundation, and the Stanford Maternal and Child Health Research Institute."
+    authorship-agreements: "The authors made the following contributions. Alvin W. M. Tan: Conceptualization, Methodology, Formal Analysis, Software, Writing -- Original Draft Preparation, Writing -- Review & Editing; Kirsten Read: Conceptualization, Investigation, Writing -- Original Draft Preparation, Writing -- Review & Editing; Sophia Gamboa: Conceptualization, Methodology, Investigation; Janet Y. Bang: Conceptualization, Investigation, Writing -- Original Draft Preparation, Writing -- Review & Editing; Virginia A. Marchman: Conceptualization, Writing -- Original Draft Preparation, Writing -- Review & Editing, Supervision"
 abstract: "Sharing books with young children has long been associated with positive outcomes for children’s language and literacy outcomes. Studies suggest that caregiver language during these book-sharing interactions is linguistically richer than speech directed to young children (target-child-directed speech; tCDS) during other everyday activities. However, few studies have directly compared the linguistic richness of speech in book sharing and other activities within the same families. In this study, tCDS was sampled from day-long naturalistic recordings to investigate the linguistic richness of speech directed to 24-month-old children from English- and Spanish-speaking families in the U.S. We compared four sources of speech: book text, read-aloud speech during book-sharing interactions, spontaneous speech during book-sharing interactions, and spontaneous speech during other everyday activities. We first used a mega-transcript approach combining across families [@dawsonFeaturesLexicalRichness2021; @montagWordsChildrenHear2015]  and compared the four sources of language on type-token ratio curves. We next conducted a more fine-grained analysis to look within families, comparing the four sources of speech in terms of lexical (lexical diversity, lexical density, lexical frequency, and contextual diversity) and grammatical (mean length of utterance in words and the proportion of complex utterances) measures associated with linguistic richness. Across both approaches and in both language groups, speech based on text was lexically- and grammatically-richer than both sources of spontaneous speech. These results indicate that the power of the proposed linguistic richness of speech during book-sharing interactions stems from features of the text on the page."
 keywords: [book sharing, linguistic richness, extratextual talk, child-directed speech]
 bibliography: bibliography.bib
+floatsintext: true
+keep-tex: true
 execute:
   message: false
   warning: false
@@ -62,6 +65,7 @@ format:
       text: |
         \usepackage{array}
         \usepackage{longtable}
+        \usepackage{lscape}
 ---
 
 ```{r setup}
@@ -313,7 +317,7 @@ A complete list of identified books can be found on our OSF repository ([osf.io/
 #| out.width: "100%"
 #| fig.align: "center"
 
-knitr::include_graphics("figs/examples.png", error = FALSE)
+knitr::include_graphics("figs/speech_sources.pdf", error = FALSE)
 ```
 
 \textit{Note:} Book text and the caregiver's (MOT = mother; FAT = father) read aloud speech is bolded. The caregivers' spontaneous tCDS is italicized. Child speech (CHI) is in regular font. Book text in English is from \textit{When We’re Together} by Claire Freedman. Book text in Spanish is from \textit{Clifford y la Hora del Baño} by Norman Bridwell. 
@@ -491,14 +495,14 @@ If the model indicated significant interaction effects between source and langua
 #| message: FALSE
 #| warning: FALSE
 
-mtld_vals <- apply_and_merge(all_data, \(x) get_ld(x, "MTLD"))
-density_vals <- apply_and_merge(all_data, get_lexicality)
-ls_vals <- apply_and_merge(all_data, get_sophistication) |> arrange(language, metric)
-mlu_vals <- apply_and_merge(all_data, get_mlu_nontoken)
-complexity_vals <- apply_and_merge(all_data, get_complexity)
+mtld_vals <- readRDS(here(INTERMEDIATES_LOC, "mtld_vals.rds"))
+density_vals <- readRDS(here(INTERMEDIATES_LOC, "density_vals.rds"))
+ls_vals <- readRDS(here(INTERMEDIATES_LOC, "ls_vals.rds"))
+mlu_vals <- readRDS(here(INTERMEDIATES_LOC, "mlu_vals.rds"))
+complexity_vals <- readRDS(here(INTERMEDIATES_LOC, "complexity_vals.rds"))
 ```
 
-::: {#tbl-metrics}
+::: {#tbl-metrics .landscape}
 ```{r metric_descriptives}
 #| message: FALSE
 
@@ -928,6 +932,8 @@ The results from this study illustrated several ways in which words on the page 
 Using day-long recordings, we explored the lexical and grammatical features of speech produced in naturally-occurring book-sharing episodes and other activities with young children. 
 In two quantitative analyses and across two language groups, we extended earlier findings that speech based on book texts was more lexically diverse and grammatically complex than spontaneous child-directed speech. 
 These findings highlight that linguistic richness varies both within and across activities and provide a strong empirical basis for understanding how book sharing positively impacts child language outcomes.
+
+\newpage
 
 # References
 
