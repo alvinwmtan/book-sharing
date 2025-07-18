@@ -125,7 +125,6 @@ run_analysis <- function(metric_vals, ylab, by_language = FALSE) {
                        color = if (by_language) "language" else "black",
                        tip.length = 0) +
     labs(x = "Source", y = ylab, fill = "Language") +
-    theme_classic() +
     theme(legend.position = "bottom")
   
   if (by_language) plot <- plot + TYP_SCALE
@@ -152,8 +151,7 @@ make_line_plot <- function(sl_analysis, s_analysis, ylab) {
                        # color = "black",
                        tip.length = 0) +
     # TYP_SCALE +
-    labs(x = "Source", y = ylab, col = "Language") +
-    theme_classic()
+    labs(x = "Source", y = ylab, col = "Language")
   # theme(legend.position = "none")
 }
 
@@ -173,8 +171,7 @@ make_int_line_plot <- function(sl_analysis, s_analysis, ylab) {
                        color = "language",
                        tip.length = 0) +
     TYP_SCALE +
-    labs(x = "Source", y = ylab, col = "Language") +
-    theme_classic()
+    labs(x = "Source", y = ylab, col = "Language")
   # theme(legend.position = "none")
 }
 
@@ -194,8 +191,7 @@ make_ls_line_plot <- function(sl_analysis, l_analysis, ylab) {
                        # color = "black",
                        tip.length = 0) +
     # TYP_SCALE +
-    labs(x = "Source", y = ylab, col = "Language") +
-    theme_classic()
+    labs(x = "Source", y = ylab, col = "Language")
   # theme(legend.position = "none")
 }
 

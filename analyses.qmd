@@ -38,6 +38,18 @@ all_data <- rbind(all_en_data, all_es_data) |>
          language = as.factor(language))
 ```
 
+```{r}
+all_data_ns <- all_data |> 
+  mutate(family_id = str_match(file_name, ("([0-9]+)(?:_context)"))[,2]) |> 
+  select(file_name, source, language, family_id) |> 
+  unique() |> 
+  group_by(language, source) |> 
+  summarise(n_families = n_distinct(family_id),
+            n_transcripts = n_distinct(file_name))
+saveRDS(all_data_ns, here(INTERMEDIATES_LOC, "all_data_ns.rds"))
+```
+
+
 ## Demographics
 
 ```{r demog}
@@ -199,7 +211,6 @@ saveRDS(mlu_vals, here(INTERMEDIATES_LOC, "mlu_vals.rds"))
 saveRDS(complexity_vals, here(INTERMEDIATES_LOC, "complexity_vals.rds"))
 ```
 
-
 ```{r metric_descriptives}
 mtld_desc <- make_descriptives(mtld_vals)
 density_desc <- make_descriptives(density_vals)
@@ -228,6 +239,16 @@ full_desc_out <- full_desc |>
               values_from = value)
 write_csv(full_desc_out, "full_desc_out.csv")
 ```
+
+```{r}
+ls_coverage <- all_data |> 
+  left_join(subtlex, by = c("gloss", "language")) |> 
+  group_by(language) |> 
+  summarise(coverage = 100 * (1 - (sum(is.na(freq)) / n())))
+
+saveRDS(ls_coverage, here(INTERMEDIATES_LOC, "ls_coverage.rds"))
+```
+
 
 ### By-source and -language models
 

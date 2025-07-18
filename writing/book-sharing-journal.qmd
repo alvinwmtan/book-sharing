@@ -41,12 +41,11 @@ author-note:
     deceased: ~
   disclosures:
     study-registration: ~
-    data-sharing: "Code and pre-processed data for this manuscript are available at [osf.io/q26jx](https://osf.io/q26jx/?view_only=beafd88b65c74959b9c49e2f4e50a0cf). Raw book transcripts cannot be shared due to copyright restrictions. Raw speech transcripts are forthcoming on the CHILDES data repository."
-    ethics: "Ethics approval was obtained from the Institutional Review Board of Stanford University (IRB #11109). All participants gave informed written consent before taking part in the study."
-    related-report: ~
-    conflict-of-interest: "The authors declare no conflicts of interest."
-    financial-support: ~
-    gratitude: "We are grateful to the children and parents who participated and the research assistants who helped code and transcribe: Arlyn Mora, Mónica Munévar, Jessica Magallón, Nadia Segura, Shriya Anand, Marisol Rodriguez, Maria Lopez, Stephen Lopez, Jesús Esquivel-Barrientos, Laura Jonsson, Kalpana Gopalkrishnan, Maribel Mercardo, Tami Alade, Jaqueline De Paz-Romero, Lesly Leon, Alice Articia, Julia Briones-Avila, and Elizabeth Sanchez. We also thank our colleagues for helpful discussions including Sarah Surrain, Michael C. Frank, Talya Gómez, and the staff of the Language Learning Laboratory at Stanford University. This work was supported by grants from the National Institutes of Health (R01 DC008838, R01 HD092343, 2R01 HD069150), the Schusterman Foundation, the David and Lucile Packard Foundation, the Bezos Family Foundation, and the Stanford Maternal and Child Health Research Institute."
+    data-sharing: "Code and pre-processed data for this manuscript are available at [osf.io/q26jx](https://osf.io/q26jx/?view_only=beafd88b65c74959b9c49e2f4e50a0cf). Raw book transcripts cannot be shared due to copyright restrictions. Raw speech transcripts are forthcoming on the CHILDES data repository.\\par"
+    related-report: "Ethics approval was obtained from the Institutional Review Board of Stanford University (IRB #11109). All participants gave informed written consent before taking part in the study.\\par"
+    conflict-of-interest: "The authors declare no conflicts of interest.\\par"
+    financial-support: "We are grateful to the children and parents who participated and the research assistants who helped code and transcribe: Arlyn Mora, Mónica Munévar, Jessica Magallón, Nadia Segura, Shriya Anand, Marisol Rodriguez, Maria Lopez, Stephen Lopez, Jesús Esquivel-Barrientos, Laura Jonsson, Kalpana Gopalkrishnan, Maribel Mercardo, Tami Alade, Jaqueline De Paz-Romero, Lesly Leon, Alice Articia, Julia Briones-Avila, and Elizabeth Sanchez. We also thank our colleagues for helpful discussions including Sarah Surrain, Michael C. Frank, Talya Gómez, and the staff of the Language Learning Laboratory at Stanford University.\\par"
+    gratitude: "This work was supported by grants from the National Institutes of Health (R01 DC008838, R01 HD092343, 2R01 HD069150), the Schusterman Foundation, the David and Lucile Packard Foundation, the Bezos Family Foundation, and the Stanford Maternal and Child Health Research Institute.\\par"
     authorship-agreements: "The authors made the following contributions. Alvin W. M. Tan: Conceptualization, Methodology, Formal Analysis, Software, Writing -- Original Draft Preparation, Writing -- Review & Editing; Kirsten Read: Conceptualization, Investigation, Writing -- Original Draft Preparation, Writing -- Review & Editing; Sophia Gamboa: Conceptualization, Methodology, Investigation; Janet Y. Bang: Conceptualization, Investigation, Writing -- Original Draft Preparation, Writing -- Review & Editing; Virginia A. Marchman: Conceptualization, Writing -- Original Draft Preparation, Writing -- Review & Editing, Supervision"
 abstract: "Sharing books with young children has long been associated with positive outcomes for children’s language and literacy outcomes. Studies suggest that caregiver language during these book-sharing interactions is linguistically richer than speech directed to young children (target-child-directed speech; tCDS) during other everyday activities. However, few studies have directly compared the linguistic richness of speech in book sharing and other activities within the same families. In this study, tCDS was sampled from day-long naturalistic recordings to investigate the linguistic richness of speech directed to 24-month-old children from English- and Spanish-speaking families in the U.S. We compared four sources of speech: book text, read-aloud speech during book-sharing interactions, spontaneous speech during book-sharing interactions, and spontaneous speech during other everyday activities. We first used a mega-transcript approach combining across families [@dawsonFeaturesLexicalRichness2021; @montagWordsChildrenHear2015]  and compared the four sources of language on type-token ratio curves. We next conducted a more fine-grained analysis to look within families, comparing the four sources of speech in terms of lexical (lexical diversity, lexical density, lexical frequency, and contextual diversity) and grammatical (mean length of utterance in words and the proportion of complex utterances) measures associated with linguistic richness. Across both approaches and in both language groups, speech based on text was lexically- and grammatically-richer than both sources of spontaneous speech. These results indicate that the power of the proposed linguistic richness of speech during book-sharing interactions stems from features of the text on the page."
 keywords: [book sharing, linguistic richness, extratextual talk, child-directed speech]
@@ -80,8 +79,10 @@ walk(c("here", "glue",
        "rstatix", "lme4", "emmeans", "lmerTest", "broom.mixed"), # statistics
      require, character.only = TRUE)
 walk(here("scripts", list.files(here("scripts"))), source)
-theme_set(theme_classic())
+theme_set(theme_classic(base_size = 12))
 INTERMEDIATES_LOC <- here("intermediates")
+knitr::opts_chunk$set(dev = "ragg_png",
+                      dpi = 400)
 ```
 
 ```{r data}
@@ -163,7 +164,7 @@ However, they also found adults used more questions, another complex sentence fo
 
 Despite some mixed findings, prior studies suggest an overall richer language environment, with opportunities to hear more words, more word types, more sophisticated words, and more grammatically complex sentences, during shared book reading compared to during other types of child-centered activities. 
 While many studies compared either book text or the spontaneous speech that occurs during shared reading with child directed speech during other activities, it is important to note that shared reading is an opportunity to hear (and learn from) both the texts that are read aloud and the conversation around those texts. 
-With the exception of @ecedemir-liraParentsEarlyBook2019, little previous research has separated out these different sources of language within the shared reading context. 
+With the exception of @ecedemir-liraParentsEarlyBook2019 and @stoopsNovelCorpusNaturalistic2024, little previous research has separated out these different sources of language within the shared reading context. 
 Understanding better where the rich language during book sharing originates---just within the book text itself, or also within the extratextual verbal interactions that a book text may instigate---can help us more clearly understand the potential benefits of the whole book sharing experience for a young child.
 
 ## Broadening our view of caregiver talk during book sharing
@@ -176,7 +177,7 @@ By examining everyday book-sharing experiences using day-long recordings, we can
 
 Second, the present study aims to capture the experiences of children from a broader, more representative American sample by including both primarily English- and Spanish-speaking families in the Western U.S., who spanned a range of demographic, sociolinguistic, and sociocultural backgrounds. 
 Prior studies have typically included families from higher-educated backgrounds and who were English-speaking in the U.S. 
-This subset of families in the U.S. limits generalizability to families from socioeconomic and sociocultural backgrounds, yielding a constrained, incomplete, and possibly biased sample [@blasiRelianceEnglishHinders2022; @singhGreaterAttentionSocioeconomic2024]. 
+This subset of families in the U.S. limits generalizability to families from diverse socioeconomic and sociocultural backgrounds, yielding a constrained, incomplete, and possibly biased sample [@blasiRelianceEnglishHinders2022; @singhGreaterAttentionSocioeconomic2024]. 
 English-speaking families in the current sample were recruited several hundred miles from research centers where we could identify more families who lived in primarily monolingual English-speaking rural communities than is typical of higher-socioeconomic university-based samples (REF-masked). 
 We also included Spanish-speaking families who were recruited as part of a community outreach program. 
 Spanish-speakers in the U.S. represent a heterogeneous population. 
@@ -226,20 +227,74 @@ On average, mothers in the Spanish-speaking sample received high-school educatio
 We explored the two groups separately, focusing on general trends that held across groups, but also considered language as a potential moderator when the groups were later combined.
 
 ::: {#tbl-demogs}
-```{=latex}
-\centering
-\begin{tabular}{lcccc}
-  \toprule
-  & \multicolumn{2}{c}{English} & \multicolumn{2}{c}{Spanish} \\ 
-  \cmidrule(lr){2-3} \cmidrule(lr){4-5}
-  & $M$ (SD) & Range & $M$ (SD) & Range \\
-  \midrule
-  Age (months) & 24.0 (0.8) & 23--25 & 25.5 (0.5) & 24--26 \\
-  \% male & 36.4 & -- & 45.0 & -- \\
-  Maternal education (years) & 15.3 (1.7) & 12--18 & 12.3 (3.5) & 6--18 \\
-  \bottomrule
-\end{tabular}
+```{r}
+print_dp <- function(x, dp=1) {
+  format(round(x, dp), nsmall = dp) |> na_if("NA")
+}
+
+demogs <- read_csv(here("data", "demog.csv"))
+demogs |> 
+  mutate(language = str_to_sentence(language)) |> 
+  group_by(language) |> 
+  summarise(age_mean = mean(age),
+            age_sd = sd(age),
+            age_min = min(age),
+            age_max = max(age),
+            male_mean = 100 * sum(sex == "male") / n(),
+            momed_mean = mean(momed),
+            momed_sd = sd(momed),
+            momed_min = min(momed),
+            momed_max = max(momed),
+            birthordfirst_mean = sum(birthorder == 1),
+            birthordsecond_mean = sum(birthorder == 2),
+            birthordthird_mean = sum(birthorder == 3),
+            birthordplus_mean = sum(birthorder > 3),
+            momyrsus_mean = mean(mom_yrs_US),
+            momyrsus_sd = sd(mom_yrs_US),
+            momyrsus_min = min(mom_yrs_US),
+            momyrsus_max = max(mom_yrs_US)) |> 
+  pivot_longer(cols = -language,
+               names_to = "variable",
+               values_to = "value") |> 
+  separate_wider_delim(variable, delim = "_", names = c("variable", "metric")) |> 
+  pivot_wider(names_from = metric, values_from = value) |> 
+  mutate(meansd = ifelse(is.na(sd), 
+                          ifelse(variable == "male", print_dp(mean), print_dp(mean, 0)),
+                          str_c(print_dp(mean), " (", print_dp(sd), ")")),
+         range = str_c(floor(min), "--", floor(max))) |> 
+  select(language, variable, meansd, range) |> 
+  pivot_wider(names_from = language,
+              values_from = c(meansd, range),
+              names_vary = "slowest") |> 
+  mutate(variable = c(
+    "Age (months)",
+    "% male",
+    "Maternal education (years)",
+    "1",
+    "2",
+    "3",
+    "4+",
+    "Maternal time in the U.S. (years)"
+  )) |> 
+  add_row(variable = "Birth order",
+          .after = 3) |> 
+  replace_na(list(meansd_English = "", range_English = "",
+                  meansd_Spanish = "", range_Spanish = "")) |> 
+  gt(rowname_col = "variable") |> 
+  tab_spanner_delim(delim = "_", 
+                    reverse = TRUE) |> 
+  cols_label_with(fn = \(x) case_when(
+    x == "meansd" ~ "_M_ (SD)",
+    x == "range" ~ "Range",
+    .default = x
+  ) |> md()) |> 
+  fmt_markdown() |> 
+  tab_style(
+    style = cell_text(indent = px(24)),
+    locations = cells_stub(rows = 5:8)
+  )
 ```
+
 
 Sample demographics of the children and families from the English- ($n$ = 22) and Spanish- ($n$ = 20) speaking families who engaged in any book sharing during their day-long audio recording.\vspace{20pt}
 
@@ -296,8 +351,12 @@ Descriptive statistics of book-sharing episodes in English- ($n$ = 22) and Spani
 ## Identifying book texts
 
 Research assistants identified the books shared with the child using information spoken by the caregiver in the recording, including: 1) title of the book, 2) author name, 3) read aloud text that could be matched to the actual book, and/or 4) specific details of the pictures that the caregiver narrated. 
-Across all English-speaking families ($n$ = 22), a total of 69 books were read during the episodes, of which, 56 titles (81%) were confirmed for 21 families ($M$ = 2.7 titles per family, range = 1--8). 
-Across all Spanish-speaking families ($n$ = 20), a total of 45 books were read, of which, 30 titles were confirmed (67%) representing 15 families ($M$ = 2.0 titles per family, range = 1--6). 
+Across all English-speaking families ($n$ = 22), a total of 69 books were read during the episodes, of which 56 titles (81%) were confirmed for 21 families ($M$ = 2.7 titles per family, range = 1--8). 
+Of the 21 families, there were 4 families where caregivers at some point read text where we could not identify the book title; these utterances were included as read-aloud text in our analyses and were not represented in the book texts (66 utterances total). 
+These read aloud utterances with unknown book titles represented a small percentage of the read aloud speech in our English sample (66 utterances / 2395 read aloud, 2.76%).
+Across all Spanish-speaking families ($n$ = 20), a total of 45 books were read, of which 30 titles were confirmed (67%) representing 15 families ($M$ = 2.0 titles per family, range = 1--6). 
+Of the 15 families, there were 5 families where the caregivers at some point read text where we could not identify the book title; these utterances were included as read-aloud text in our analyses and were not represented in the book texts (108 utterances total). 
+These read aloud utterances also represented a small percentage of read aloud speech in the Spanish sample (108 utterances / 1655 read aloud, 6.53%). 
 All confirmed book titles were obtained online (e.g., YouTube read-alouds), at our local library, or purchased.
 
 Books were then categorized in two ways. 
@@ -351,7 +410,6 @@ Additionally, our analyses parsed two separate sources of speech produced by car
 In each language, we concatenated the text from each source (book text, read-aloud text, spontaneous-book, spontaneous-other) to form four mega-transcripts that represented all of the language sources that occurred across all participants. 
 For each mega-transcript, we then drew 100 random samples at sample sizes ranging, in 100 token increments, from 100 to 7,700 tokens (this number was constrained by the size of the smallest source: Spanish spontaneous–book). 
 At each sample size, we then averaged over the 100 samples to derive the mean type count, i.e., the mean number of different words, per sample size. 
-We also derived the mean type–token ratio (TTR) as the mean number of different words (i.e., types) per sample size divided by the sample size.
 
 ## Results: Analysis 1
 
@@ -365,8 +423,8 @@ Note that while the magnitude of the differences across sources in the English- 
 
 ::: {#fig-types}
 ```{r}
-#| fig.width: 10
-#| fig.height: 4
+#| fig.width: 12
+#| fig.height: 5
 
 types_plot_en <- ggplot(data = all_sim |> filter(language == "English",
                                                  source != "CHILDES",
@@ -395,43 +453,6 @@ Number of unique word types as a function of token sample size per mega-transcri
 
 :::
 
-@fig-ttr shows a similar analysis comparing across sources for type-token ratios (TTR) in English- and Spanish-speaking families. 
-Note that as sample sizes increase, the TTRs decrease in the expected fashion. 
-Moreover, book text and read-aloud text had similar TTR values that were generally higher than spontaneous speech produced during both book-sharing and non-book-sharing activities. 
-While not identical, the overall patterns of relations across sources were again similar in English- and Spanish-speaking families.
-
-::: {#fig-ttr}
-```{r}
-#| fig.width: 10
-#| fig.height: 4
-
-ttr_plot_en <- ggplot(data = all_sim |> filter(language == "English",
-                                                 source != "CHILDES",
-                                                 source != "ReadOxford"), 
-                      aes(x = size, y = ttr, color = source)) +
-  geom_line() +
-  labs(x = "Total word tokens", y = "Type-token ratio") +
-  coord_cartesian(xlim = c(0, 8000), ylim = c(0, 0.7)) +
-  COL_SCALE
-
-ttr_plot_es <- ggplot(data = all_sim |> filter(language == "Spanish"), 
-                      aes(x = size, y = ttr, color = source)) +
-  geom_line() +
-  labs(x = "Total word tokens", y = "Type-token ratio") +
-  coord_cartesian(xlim = c(0, 8000), ylim = c(0, 0.7)) +
-  COL_SCALE_2
-
-ttr_out <- (ttr_plot_en + labs(title = "English")) +
-  (ttr_plot_es + labs(title = "Spanish")) +
-  plot_layout(guides = "collect") +
-  plot_annotation(tag_levels = "A")
-ttr_out
-```
-
-Type–token ratio (TTR) over total word tokens of samples for the four language sources, for (A) English-speaking ($n$ = 22) and (B) Spanish-speaking ($n$ = 20) families.
-
-:::
-
 ## Discussion: Analysis 1
 
 These results replicated the earlier finding that book texts tended to have higher lexical diversity, as measured in terms of both number of unique types and TTR, than tCDS produced in non-book-sharing contexts for any given token sample size [@montagWordsChildrenHear2015; @dawsonFeaturesLexicalRichness2021]. 
@@ -446,12 +467,15 @@ In our second set of analyses, we used a by-transcript approach that allowed us 
 This approach allowed us to test hypotheses statistically, to control for inter-family variation, and to adopt a more comprehensive approach across multiple dimensions of richness. 
 For lexical richness, we measured lexical diversity, lexical density, and two indices of lexical sophistication (lexical frequency and contextual diversity); for grammatical richness, we measured the mean length of utterance in words (MLU-w) and the proportion of complex utterances.
 
+For Spanish-speaking families, the large majority of speech across all activities was in Spanish (95%; see Bang et al., 2022). 
+However, at times when English or bilingual books were read, they may have used both English and Spanish. 
+All text/speech in each source, regardless of the language used, was combined into a single transcript for the computation of all measures. 
+
 ## Measures and analytic strategy
 
 *Lexical diversity.* Single type–token ratio measures are insufficient metrics of lexical diversity as they are sensitive to the length of the document [see e.g., @hessSampleSizeTypeToken1986]; thus, we calculated the measure of textual lexical diversity (MTLD) for each transcript. 
-This measure corresponds approximately to the average number of tokens for which the sample remains at a given type–token ratio threshold [@mccarthyAssessmentRangeUsefulness2005; for further discussion on the length sensitivities of lexical diversity measures, see also @fergadiotisPsychometricEvaluationLexical2015; @mccarthyMTLDVocdHDvalidationStudy2010; @stillsLanguageSampleLength2016a].[^1] 
-This analysis was conducted using the `koRpus` package in R [@michalkeKoRpusTextAnalysis2021]. 
-A higher score on lexical diversity indicates that a transcript contains more different words, akin to a higher type-token ratio.
+MTLD is defined as the mean length of sequential word strings in a text that maintain a type-token ratio that exceeds some predetermined threshold [@mccarthyAssessmentRangeUsefulness2005; for further discussion on the length sensitivities of lexical diversity measures, see also @fergadiotisPsychometricEvaluationLexical2015; @mccarthyMTLDVocdHDvalidationStudy2010; @stillsLanguageSampleLength2016a].[^1] 
+This analysis was conducted using the `koRpus` package in R [@michalkeKoRpusTextAnalysis2021], with a type-token ratio threshold of .72. A higher score on MTLD indicates that a transcript contains more sequences of text that have a high number of different words.
 
 [^1]: Note that MTLD is generally not recommended for texts of $<$ 100 tokens [@koizumiRelationshipsTextLength2012; @mccarthyMTLDVocdHDvalidationStudy2010]; however, removing transcripts of $<$ 100 tokens did not affect the results substantially, so we report the results from the full set of transcripts.
 
@@ -461,8 +485,13 @@ All other tokens were coded as non-lexical.
 We calculated lexical density by dividing the number of lexical tokens by the number of total tokens in each transcript [@bermanLexiconWritingSpeech2010; @stromqvistCrosslinguisticComparisonLexical2002]. 
 A higher score on lexical density indicates that a transcript contains relatively more contentful words.
 
+```{r ls_coverage}
+ls_coverage <- readRDS(here(INTERMEDIATES_LOC, "ls_coverage.rds"))
+```
+
 *Lexical frequency.* We measure lexical sophistication in two ways. 
 First, following @dawsonFeaturesLexicalRichness2021, we calculated the log frequencies of each word token produced by caregivers in our transcripts that also occurred in a reference subtitle corpus: SUBTLEX-US for English [@brysbaertMovingKuceraFrancis2009] and EsPal for Spanish [@duchonEsPalOnestopShopping2013], operationalized as the number of occurrences of each token per million words in the reference corpus. 
+These subtitle corpora had a coverage of `r ls_coverage |> filter(language == "English") |> pull(coverage) |> print_dp()`% of all tokens for English and `r ls_coverage |> filter(language == "Spanish") |> pull(coverage) |> print_dp()`% of all tokens for Spanish.
 We then calculated the mean of the log reference frequencies for all tokens in each transcript, following @kyleAutomaticallyAssessingLexical2015. 
 A lower score on lexical frequency indicates that a transcript contains more rare words.
 
@@ -480,17 +509,6 @@ A higher proportion of complex utterances in a transcript reflects a higher leve
 
 ### Modeling
 
-We then fit a linear mixed effects model with the value of a measure as the outcome variable, and source and language group as predictors, along with the interaction between source and language group. 
-We also fitted random effects of transcripts nested within families. 
-For each of our six measures, we excluded extreme values, defined as values over 3.5 interquartile ranges away from the median. 
-The full specification of each model was as follows: `value ~ source * language + (1 | family_id/transcript_id)`. 
-Using the fitted models, we computed pairwise comparisons among estimated marginal means, using Bonferroni corrections for multiple comparisons. 
-If the model indicated significant interaction effects between source and language, we included comparisons across sources by language; if there were no interaction effects between source and language, we only included comparisons across sources.
-
-## Results: Analysis 2
-
-@tbl-metrics provides an overview of the descriptive statistics for the six metrics of richness by source and language group.
-
 ```{r metrics}
 #| message: FALSE
 #| warning: FALSE
@@ -500,11 +518,41 @@ density_vals <- readRDS(here(INTERMEDIATES_LOC, "density_vals.rds"))
 ls_vals <- readRDS(here(INTERMEDIATES_LOC, "ls_vals.rds"))
 mlu_vals <- readRDS(here(INTERMEDIATES_LOC, "mlu_vals.rds"))
 complexity_vals <- readRDS(here(INTERMEDIATES_LOC, "complexity_vals.rds"))
+all_data_ns <- readRDS(here(INTERMEDIATES_LOC, "all_data_ns.rds"))
 ```
+
+```{r extreme}
+extreme_vals <- bind_rows(mtld_vals, density_vals,
+                          ls_vals, mlu_vals,
+                          complexity_vals) |> 
+  group_by(metric) |> 
+  mutate(is.extreme = is_extreme(value)) |> 
+  group_by(language, metric) |> 
+  summarise(extreme_prop = 100 * sum(is.extreme, na.rm = TRUE) / n())
+```
+
+We then fit a linear mixed effects model with the value of a measure as the outcome variable, and source and language group as predictors, along with the interaction between source and language group. 
+We also fitted random effects of transcripts nested within families. 
+For each of our six measures, we excluded extreme values, defined as values over 3.5 interquartile ranges away from the median; extreme values constituted < 4% of values for all metrics except for MTLD, for which they constituted `r extreme_vals |> filter(language == "English", metric == "MTLD") |> pull(extreme_prop) |> print_dp()`% of values for English and `r extreme_vals |> filter(language == "Spanish", metric == "MTLD") |> pull(extreme_prop) |> print_dp()`% of values for Spanish. 
+Source was coded with sum contrasts, with book text as the reference level.
+The full specification of each model was as follows: `value ~ source * language + (1 | family_id/transcript_id)`. 
+Using the fitted models, we computed pairwise comparisons among estimated marginal means, using Bonferroni corrections for multiple comparisons. 
+If the model indicated significant interaction effects between source and language, we included comparisons across sources by language; if there were no interaction effects between source and language, we only included comparisons across sources.
+
+## Results: Analysis 2
+
+@tbl-metrics provides an overview of the descriptive statistics for the six metrics of richness by source and language group.
 
 ::: {#tbl-metrics .landscape}
 ```{r metric_descriptives}
 #| message: FALSE
+
+all_data_ns_out <- all_data_ns |> 
+  pivot_longer(cols = starts_with("n_"), 
+               names_to = "Metric") |> 
+  mutate(value = as.character(value)) |> 
+  pivot_wider(names_from = c(language, source)) |> 
+  mutate(Metric = c("_N_ families", "_N_ transcripts"))
 
 mtld_desc <- make_descriptives(mtld_vals)
 density_desc <- make_descriptives(density_vals)
@@ -532,8 +580,12 @@ full_desc_out <- full_desc |>
   pivot_wider(names_from = c(language, source),
               values_from = value)
 
-full_desc_out |> 
-  gt() |> 
+metrics_out <- bind_rows(all_data_ns_out, full_desc_out)
+
+metrics_out |> 
+  mutate(Metric = md(Metric)) |> 
+  gt(rowname_col = "Metric",
+     process_md = TRUE) |> 
   tab_spanner_delim(delim = "_") |> 
   cols_width(
     Metric ~ px(85),
@@ -780,7 +832,7 @@ Post-hoc analyses further indicated that when considering model estimates for mo
 ```{r}
 #| message: FALSE
 #| warning: FALSE
-#| fig.width: 9
+#| fig.width: 12
 #| fig.height: 5
 
 mtld_bl_plot <- ggplot(data = mtld_bl_emms |> as_tibble() |> 
@@ -794,8 +846,7 @@ mtld_bl_plot <- ggplot(data = mtld_bl_emms |> as_tibble() |>
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE,
                     col = language),
                 width = .1, position = position_dodge(0.2)) +
-  labs(x = "Source", y = "MTLD", col = "Language") +
-  theme_classic()
+  labs(x = "Source", y = "MTLD", col = "Language")
 mtld_bl_plot
 ```
 
@@ -838,7 +889,7 @@ This suggests that differing proportions of non-narrative books in the two sampl
 
 ::: {#fig-mtld-type}
 ```{r}
-#| fig.width: 9
+#| fig.width: 12
 #| fig.height: 5
 
 mtld_bt_plot <- ggplot(data = mtld_bt_emms |> as_tibble() |> 
@@ -852,8 +903,7 @@ mtld_bt_plot <- ggplot(data = mtld_bt_emms |> as_tibble() |>
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE,
                     col = language),
                 width = .1, position = position_dodge(0.2)) +
-  labs(x = "Source", y = "MTLD", col = "Language") +
-  theme_classic()
+  labs(x = "Source", y = "MTLD", col = "Language")
 mtld_bt_plot
 ```
 
