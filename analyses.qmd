@@ -45,17 +45,18 @@ all_data_ns <- all_data |>
   unique() |> 
   group_by(language, source) |> 
   summarise(n_families = n_distinct(family_id),
-            n_transcripts = n_distinct(file_name))
+            n_transcripts = n_distinct(file_name)) |> 
+  mutate(n_families = ifelse(language == "Spanish" & source == "Book text", 
+                             16, n_families)) # one family was undercounted because of duplicated book
 saveRDS(all_data_ns, here(INTERMEDIATES_LOC, "all_data_ns.rds"))
 ```
 
 
 ## Demographics
 
-```{r demog}
+```{r demog, eval=F}
 demog <- read_csv(here("data", "demog.csv")) |> 
-  mutate(sex = as.factor(sex),
-         ethnicity = as.factor(ethnicity))
+  mutate(sex = as.factor(sex))
 
 demog_summary <- demog |> 
   group_by(language) |> 
@@ -85,6 +86,7 @@ source_num <- all_lengths |>
 ### Sampling
 
 ```{r sampling_analysis, eval=F}
+set.seed(42)
 sim_data <- all_data |> 
   filter(file_name != "7579_context1_18684_BILINGUAL_first_100_words_clean.xml")
 
@@ -93,7 +95,7 @@ sim_data_df <- sim_data |>
   mutate(sims = mapply(simulate_samples, 
                        data_df = tokens, 
                        size_end = ifelse(language == "English", 
-                                         11000, 7700),
+                                         7000, 7000),
                                          # ifelse(source == "Spont-adult", 5100, 11000), 
                                          # ifelse(source == "Spont-adult", 6500, 7700)),
                        SIMPLIFY = FALSE)) |> 

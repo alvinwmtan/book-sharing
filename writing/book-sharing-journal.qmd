@@ -16,6 +16,7 @@ author:
         region: California
         country: USA
         postal-code: 94305
+        id: stanford
   - name: Kirsten Read
     orcid: 0000-0002-1334-9610
     affiliations:
@@ -33,21 +34,20 @@ author:
   - name: Virginia A. Marchman
     orcid: 0000-0001-7183-6743
     affiliations:
-      - name: Stanford University
-        department: Department of Psychology
+      - ref: stanford
 author-note:
   status-changes: 
     affiliation-change: ~
     deceased: ~
   disclosures:
     study-registration: ~
-    data-sharing: "Code and pre-processed data for this manuscript are available at [osf.io/q26jx](https://osf.io/q26jx/?view_only=beafd88b65c74959b9c49e2f4e50a0cf). Raw book transcripts cannot be shared due to copyright restrictions. Raw speech transcripts are forthcoming on the CHILDES data repository.\\par"
+    data-sharing: "Code and pre-processed data for this manuscript are available at [osf.io/q26jx](https://osf.io/q26jx/?view_only=beafd88b65c74959b9c49e2f4e50a0cf). Raw book transcripts cannot be shared due to copyright restrictions. Raw speech transcripts are available on the CHILDES data repository at [talkbank.org/childes/access/Eng-NA/FMB_book.html](https://talkbank.org/childes/access/Eng-NA/FMB_book.html).\\par"
     related-report: "Ethics approval was obtained from the Institutional Review Board of Stanford University (IRB #11109). All participants gave informed written consent before taking part in the study.\\par"
     conflict-of-interest: "The authors declare no conflicts of interest.\\par"
     financial-support: "We are grateful to the children and parents who participated and the research assistants who helped code and transcribe: Arlyn Mora, Mónica Munévar, Jessica Magallón, Nadia Segura, Shriya Anand, Marisol Rodriguez, Maria Lopez, Stephen Lopez, Jesús Esquivel-Barrientos, Laura Jonsson, Kalpana Gopalkrishnan, Maribel Mercardo, Tami Alade, Jaqueline De Paz-Romero, Lesly Leon, Alice Articia, Julia Briones-Avila, and Elizabeth Sanchez. We also thank our colleagues for helpful discussions including Sarah Surrain, Michael C. Frank, Talya Gómez, and the staff of the Language Learning Laboratory at Stanford University.\\par"
     gratitude: "This work was supported by grants from the National Institutes of Health (R01 DC008838, R01 HD092343, 2R01 HD069150), the Schusterman Foundation, the David and Lucile Packard Foundation, the Bezos Family Foundation, and the Stanford Maternal and Child Health Research Institute.\\par"
     authorship-agreements: "The authors made the following contributions. Alvin W. M. Tan: Conceptualization, Methodology, Formal Analysis, Software, Writing -- Original Draft Preparation, Writing -- Review & Editing; Kirsten Read: Conceptualization, Investigation, Writing -- Original Draft Preparation, Writing -- Review & Editing; Sophia Gamboa: Conceptualization, Methodology, Investigation; Janet Y. Bang: Conceptualization, Investigation, Writing -- Original Draft Preparation, Writing -- Review & Editing; Virginia A. Marchman: Conceptualization, Writing -- Original Draft Preparation, Writing -- Review & Editing, Supervision"
-abstract: "Sharing books with young children has long been associated with positive outcomes for children’s language and literacy outcomes. Studies suggest that caregiver language during these book-sharing interactions is linguistically richer than speech directed to young children (target-child-directed speech; tCDS) during other everyday activities. However, few studies have directly compared the linguistic richness of speech in book sharing and other activities within the same families. In this study, tCDS was sampled from day-long naturalistic recordings to investigate the linguistic richness of speech directed to 24-month-old children from English- and Spanish-speaking families in the U.S. We compared four sources of speech: book text, read-aloud speech during book-sharing interactions, spontaneous speech during book-sharing interactions, and spontaneous speech during other everyday activities. We first used a mega-transcript approach combining across families [@dawsonFeaturesLexicalRichness2021; @montagWordsChildrenHear2015]  and compared the four sources of language on type-token ratio curves. We next conducted a more fine-grained analysis to look within families, comparing the four sources of speech in terms of lexical (lexical diversity, lexical density, lexical frequency, and contextual diversity) and grammatical (mean length of utterance in words and the proportion of complex utterances) measures associated with linguistic richness. Across both approaches and in both language groups, speech based on text was lexically- and grammatically-richer than both sources of spontaneous speech. These results indicate that the power of the proposed linguistic richness of speech during book-sharing interactions stems from features of the text on the page."
+abstract: "Sharing books with young children has long been associated with positive outcomes for children’s language and literacy outcomes. Studies suggest that caregiver language during these book-sharing interactions is linguistically richer than speech directed to young children (target-child-directed speech; tCDS) during other everyday activities. However, few studies have directly compared the linguistic richness of speech in book sharing and other activities within the same families. In this study, tCDS was sampled from day-long naturalistic recordings to investigate the linguistic richness of speech directed to 24-month-old children from English- and Spanish-speaking families in the U.S. We compared four sources of speech: book text, read-aloud text during book-sharing interactions, spontaneous speech during book-sharing interactions, and spontaneous speech during other everyday activities. We first used a mega-transcript approach combining across families [@dawsonFeaturesLexicalRichness2021; @montagWordsChildrenHear2015]  and compared the four sources of language on type-token ratio curves. We next conducted a more fine-grained analysis to look within families, comparing the four sources of speech in terms of lexical (lexical diversity, lexical density, lexical frequency, and contextual diversity) and grammatical (mean length of utterance in words and the proportion of complex utterances) measures associated with linguistic richness. Across both approaches and in both language groups, speech based on text was lexically and grammatically richer than both sources of spontaneous speech. These results indicate that the power of the proposed linguistic richness of speech during book-sharing interactions stems from features of the text on the page."
 keywords: [book sharing, linguistic richness, extratextual talk, child-directed speech]
 bibliography: bibliography.bib
 floatsintext: true
@@ -79,7 +79,7 @@ walk(c("here", "glue",
        "rstatix", "lme4", "emmeans", "lmerTest", "broom.mixed"), # statistics
      require, character.only = TRUE)
 walk(here("scripts", list.files(here("scripts"))), source)
-theme_set(theme_classic(base_size = 12))
+theme_set(theme_classic(base_size = 16))
 INTERMEDIATES_LOC <- here("intermediates")
 knitr::opts_chunk$set(dev = "ragg_png",
                       dpi = 400)
@@ -107,10 +107,11 @@ all_sim <- readRDS(here(INTERMEDIATES_LOC, "all_sim.rds"))
 Reading aloud with young children is largely considered to be beneficial for children's language development. 
 Decades of research has demonstrated that the frequency and quality of shared book reading are positively correlated with short- and long-term increases in receptive and expressive language skills [e.g., @arterberryEarlyAttentionLiteracy2007; @debarysheJointPicturebookReading1993; @farrantEarlyVocabularyDevelopment2012; @flackEffectsSharedStorybook2018; @karrassEffectsSharedParent2005; @raikesMotherChildBookreading2006; @senechalContinuityChangeHome2014; @senechalKnowledgeStorybooksPredictor1996; @senechalRelationsFrequencyShared2008]. 
 General benefits of frequent shared book reading may appear obvious because book-sharing episodes are concentrated periods of language use during which caregivers read book texts aloud. 
-However, caregivers are also likely to talk about what they are reading---for example, this 'extratextual' talk may include comments on the characters, questions, or language used to manage the activity. 
-Few studies have directly compared the richness of the various types of talk that occurs during book-sharing episodes. 
-In this study, we explore speech directed to 2-year-old children during naturally occurring book-sharing episodes in two diverse samples of English- and Spanish-speaking families in the U.S. 
-Our goal is to explore various features of book-text talk and spontaneous talk to understand the features of the types of language used in these interactions.
+However, caregivers are also likely to talk about what they are reading.
+This 'extratextual' talk may include comments on the characters, questions, or language used to manage the activity. 
+Few studies have directly compared the richness of the various types of talk that occur during book-sharing episodes. 
+In this study, we explore the book texts that are read, as well as the speech directed to 2-year-old children during naturally occurring book-sharing episodes and in non-book-sharing activities in two diverse samples of English- and Spanish-speaking families in the U.S. 
+Our goal is to explore various features of book-text talk and spontaneous talk to reveal systematic variation in the types of language used in these interactions.
 
 ## Book sharing as a source of "rich" language
 
@@ -137,8 +138,8 @@ Studies have also found that children's book texts tend to be more grammatically
 
 These corpora-based studies highlight that the text on the pages of popular English language children's books is, by multiple measures, "richer" than the speech captured in recorded adult-child conversations in everyday contexts. 
 When parents are given books by researchers to read aloud with their young children, they tend to read all the text verbatim [e.g., @readTresFormasShared2021; @stoopsNovelCorpusNaturalistic2024]. 
-However, caregivers engaged in more natural shared book reading with a young child at home may only read a subset of the words and sentences printed in the books they share, and they may at times simplify the vocabulary, or grammar, as well as paraphrase, replace, expand on or even translate the texts that are read aloud. 
-Thus, in order to understand the richness of the language actually heard by a child during shared book reading, we need to measure not just the text in the books, but the texts of the books that actually get read aloud during everyday, natural settings [e.g., @ecedemir-liraParentsEarlyBook2019; @stoopsNovelCorpusNaturalistic2024]. 
+However, caregivers engaged in more natural shared book reading with a young child may only read a subset of the words and sentences printed in the books they share, and they may at times simplify the vocabulary, or grammar, as well as paraphrase, replace, expand on or even translate the texts that are read aloud. 
+Thus, in order to understand the richness of the language actually heard by a child during shared book reading, we need to measure not just the text in the books, but the texts that are actually read aloud during everyday, natural settings [e.g., @ecedemir-liraParentsEarlyBook2019; @stoopsNovelCorpusNaturalistic2024]. 
 
 A second important source of talk during book sharing is the spontaneous commentary and conversation that occurs alongside the reading of the text itself. 
 Not only do children hear the text of the book read aloud, readers also tend to elaborate and engage children in spontaneous extratextual commentary and conversation prompted by the book and the shared reading activity [@fletcherPictureBookReading2005; @hindmanExploringVarietyParental2014; @molAddedValueDialogic2008; @readItsTalkThat2023]. 
@@ -177,7 +178,7 @@ By examining everyday book-sharing experiences using day-long recordings, we can
 
 Second, the present study aims to capture the experiences of children from a broader, more representative American sample by including both primarily English- and Spanish-speaking families in the Western U.S., who spanned a range of demographic, sociolinguistic, and sociocultural backgrounds. 
 Prior studies have typically included families from higher-educated backgrounds and who were English-speaking in the U.S. 
-This subset of families in the U.S. limits generalizability to families from diverse socioeconomic and sociocultural backgrounds, yielding a constrained, incomplete, and possibly biased sample [@blasiRelianceEnglishHinders2022; @singhGreaterAttentionSocioeconomic2024]. 
+This subset of families in the U.S. limits generalizability to families from a broader range of socioeconomic and sociocultural backgrounds, yielding a constrained, incomplete, and possibly biased sample [@blasiOverrelianceEnglishHinders2022; @singhGreaterAttentionSocioeconomic2024]. 
 English-speaking families in the current sample were recruited several hundred miles from research centers where we could identify more families who lived in primarily monolingual English-speaking rural communities than is typical of higher-socioeconomic university-based samples (REF-masked). 
 We also included Spanish-speaking families who were recruited as part of a community outreach program. 
 Spanish-speakers in the U.S. represent a heterogeneous population. 
@@ -192,9 +193,8 @@ We examine general trends across both samples, but also explore language group a
 
 We analyzed samples of naturally occurring activities extracted from day-long audio recordings in English- and Spanish-speaking families with two-year-old children. 
 In each family, we identified the six densest 10-minute segments of target child-directed speech (tCDS) and identified all activities in which the talk occurred (e.g., book sharing, play, mealtimes). 
-Our approach was as follows.
 
-First, we compared features of the book text and actual speech to young children using multiple sources: (1) full texts of the books that were read aloud, (2) speech from those book texts that was read aloud by caregivers, (3) spontaneous, extratextual tCDS that occurred during book-sharing sessions, and (4) tCDS during all other non-book-sharing activities. 
+First, we compared features of the book text and actual speech to young children using multiple sources: (1) full texts of the books read aloud, (2) speech from those book texts that was read aloud by caregivers, (3) spontaneous, extratextual tCDS that occurred during book-sharing sessions, and (4) tCDS during all other non-book-sharing activities. 
 Second, we used two different analytic approaches to the data. 
 In the first set of analyses, we adopted an approach from @montagWordsChildrenHear2015 and @dawsonFeaturesLexicalRichness2021, in which transcripts from each source are concatenated across families to form a "mega-transcript" for each source. 
 Our goal was to explore whether our smaller, more ecologically-valid and varied sample of book texts would also show that book texts were more lexically rich than spontaneous speech of various sorts [e.g., @dawsonFeaturesLexicalRichness2021; @montagWordsChildrenHear2015]. 
@@ -216,14 +216,14 @@ The regression approach would help to determine which of these scenarios best ch
 Participants (English-speaking: $n$ = 22; Spanish-speaking: $n$ = 20) were part of a larger study in which day-long naturalistic recordings were collected from English- and Spanish-speaking families living in the U.S. (REF-masked). 
 In that larger study, participants (English: $n$ = 45; Spanish: $n$ = 45) were recruited between 2010 and 2013 through birth records in several sites in Northern California; recruitment information is published elsewhere (REF-masked). 
 Eligible participants were asked to conduct a day-long naturalistic home recording using the LENA (Language Environment Analysis) system [@gilkersonLENANaturalLanguage2008] when their child was 2 years old. 
-For each family, we then extracted and coded the six 10-minute segments (\~1 hour) of their recording that were characterized by the densest tCDS. 
+For each family, we then extracted and coded the six 10-minute segments (\~1 hour) of their recording that were characterized by the densest tCDS [i.e., volume sampling\; @casillasStepbystepGuideCollecting2019]. 
 Because book-sharing was our focus, only those English- and Spanish-speaking families who had at least one episode of book sharing during their densest hour of tCDS were included in the current analyses, representing about half of the larger sample in each group. 
 
 @tbl-demogs presents the demographic characteristics of the samples. 
 All children were approximately 2 years old. 
 In both samples, there were relatively more girls than boys. 
 On average, the mothers in the English-speaking families had \~3 years of post-high school education, although there was considerable variation. 
-On average, mothers in the Spanish-speaking sample received high-school education; again, there was considerable variation. 
+On average, mothers in the Spanish-speaking sample completed high-school; again, there was considerable variation. 
 We explored the two groups separately, focusing on general trends that held across groups, but also considered language as a potential moderator when the groups were later combined.
 
 ::: {#tbl-demogs}
@@ -280,18 +280,22 @@ demogs |>
           .after = 3) |> 
   replace_na(list(meansd_English = "", range_English = "",
                   meansd_Spanish = "", range_Spanish = "")) |> 
-  gt(rowname_col = "variable") |> 
+  gt(process_md = TRUE) |> 
   tab_spanner_delim(delim = "_", 
                     reverse = TRUE) |> 
   cols_label_with(fn = \(x) case_when(
     x == "meansd" ~ "_M_ (SD)",
     x == "range" ~ "Range",
+    x == "variable" ~ "Variable",
     .default = x
   ) |> md()) |> 
   fmt_markdown() |> 
   tab_style(
     style = cell_text(indent = px(24)),
-    locations = cells_stub(rows = 5:8)
+    locations = cells_body(columns = 1, rows = 5:8)
+  ) |> 
+  tab_options(
+    stub.border.style = "none",
   )
 ```
 
@@ -302,7 +306,7 @@ Sample demographics of the children and families from the English- ($n$ = 22) an
 
 ## Activity coding
 
-After data collection, the densest six 10 minute segments of tCDS was extracted from each LENA recording for further analysis. 
+After data collection, the densest six 10-minute segments of tCDS were extracted from each LENA recording for further analysis. 
 To do so, consecutive 5-minute segments were concatenated into 10-minute audio segments which were then sorted in descending order based on the automated adult word counts (AWC) provided by the LENA software. 
 Trained human listeners classified each 10-minute segment as either tCDS or non-tCDS. 
 Segments were classified as tCDS if \~70% of speech was directed to the target child who was wearing the LENA recorder. 
@@ -323,25 +327,61 @@ This evidence suggests that our original method was effective at identifying the
 
 For the current analyses, all book-sharing episodes were further curated to ensure that each episode was captured in its entirety. 
 Notably, if any book-sharing episode extended beyond the original 10-minute segment (i.e., either the start or the end of a book-sharing episode did not fall within the segment), a trained research assistant listened to identify the true start and/or end time of that episode. 
-These additional portions of the recording were then appended to the original segments.
+These additional portions of the recording were then appended to the original segments, and segments were merged when they were part of the same book-sharing episode.
 
-@tbl-booksharing shows that each family contributed, on average, 1 to 2 book-sharing episodes, although some families had as many as 6 episodes. 
+@tbl-booksharing shows that each family contributed, on average, 1 to 2 book-sharing episodes, although some families had as many as 5 episodes. 
 Families may have read more than 1 book per episode.
-The duration of each book-sharing episode was 5 to 6 minutes on average, but there was wide variability, with some episodes lasting only 1 minute to others lasting nearly 18 minutes.
+The duration of each book-sharing episode was 8 minutes on average, but there was wide variability, with some episodes lasting only 1 minute to others lasting nearly 30 minutes.
 
 ::: {#tbl-booksharing}
-```{=latex}
-\centering
-\begin{tabular}{lcccc}
-  \toprule
-  & \multicolumn{2}{c}{English} & \multicolumn{2}{c}{Spanish} \\ 
-  \cmidrule(lr){2-3} \cmidrule(lr){4-5}
-  & $M$ (SD) & Range & $M$ (SD) & Range \\
-  \midrule
-  Number of book-sharing episodes & 2.14 (0.94) & 1--5 & 1.85 (1.27) & 1--6 \\
-  Duration of book-sharing episodes (min) & 5.54 (2.73) & 1.85--10.83 & 6.52 (3.46) & 1.15--17.50 \\
-  \bottomrule
-\end{tabular}
+```{r}
+durations <- read_csv(here("data", "durations.csv"))
+episodes_out <- durations |> 
+  group_by(language, id) |> 
+  summarise(num_episodes = n(), 
+            .groups = "drop_last") |> 
+  summarise(mean_ep = mean(num_episodes),
+            sd_ep = sd(num_episodes),
+            min_ep = min(num_episodes),
+            max_ep = max(num_episodes)) |> 
+  pivot_longer(cols = ends_with("_ep"),
+               names_sep = "_",
+               names_to = c("stat", "variable"))
+durations_out <- durations |> 
+  group_by(language) |> 
+  summarise(mean_dur = mean(dur_min_bleed_merged), 
+            sd_dur = sd(dur_min_bleed_merged), 
+            min_dur = min(dur_min_bleed_merged), 
+            max_dur = max(dur_min_bleed_merged)) |> 
+  pivot_longer(cols = ends_with("_dur"),
+               names_sep = "_",
+               names_to = c("stat", "variable"))
+
+bind_rows(episodes_out, durations_out) |> 
+  pivot_wider(names_from = stat,
+              values_from = value) |> 
+  mutate(meansd = glue("{print_dp(mean, 2)} ({print_dp(sd, 2)})"),
+         range = glue("{round(min, 2)}--{round(max, 2)}"),
+         language = str_to_title(language)) |> 
+  select(language, variable, meansd, range) |> 
+  pivot_wider(names_from = language,
+              values_from = c(meansd, range),
+              names_vary = "slowest") |> 
+  mutate(variable = c("Number of book-sharing episodes", 
+                      "Duration of book-sharing episodes (min)")) |> 
+  gt(process_md = TRUE) |> 
+  tab_spanner_delim(delim = "_", 
+                    reverse = TRUE) |> 
+  cols_label_with(fn = \(x) case_when(
+    x == "meansd" ~ "_M_ (SD)",
+    x == "range" ~ "Range",
+    x == "variable" ~ "Variable",
+    .default = x
+  ) |> md()) |> 
+  fmt_markdown() |> 
+  tab_options(
+    stub.border.style = "none",
+  )
 ```
 
 Descriptive statistics of book-sharing episodes in English- ($n$ = 22) and Spanish- ($n$ = 20) speaking families.\vspace{20pt}
@@ -353,10 +393,10 @@ Descriptive statistics of book-sharing episodes in English- ($n$ = 22) and Spani
 Research assistants identified the books shared with the child using information spoken by the caregiver in the recording, including: 1) title of the book, 2) author name, 3) read aloud text that could be matched to the actual book, and/or 4) specific details of the pictures that the caregiver narrated. 
 Across all English-speaking families ($n$ = 22), a total of 69 books were read during the episodes, of which 56 titles (81%) were confirmed for 21 families ($M$ = 2.7 titles per family, range = 1--8). 
 Of the 21 families, there were 4 families where caregivers at some point read text where we could not identify the book title; these utterances were included as read-aloud text in our analyses and were not represented in the book texts (66 utterances total). 
-These read aloud utterances with unknown book titles represented a small percentage of the read aloud speech in our English sample (66 utterances / 2395 read aloud, 2.76%).
-Across all Spanish-speaking families ($n$ = 20), a total of 45 books were read, of which 30 titles were confirmed (67%) representing 15 families ($M$ = 2.0 titles per family, range = 1--6). 
-Of the 15 families, there were 5 families where the caregivers at some point read text where we could not identify the book title; these utterances were included as read-aloud text in our analyses and were not represented in the book texts (108 utterances total). 
-These read aloud utterances also represented a small percentage of read aloud speech in the Spanish sample (108 utterances / 1655 read aloud, 6.53%). 
+These read-aloud utterances with unknown book titles represented a small percentage of the read-aloud text in our English sample (66 utterances / 2395 read aloud, 2.76%).
+Across all Spanish-speaking families ($n$ = 20), a total of 45 books were read, of which 30 titles were confirmed (67%) representing 16 families ($M$ = 2.0 titles per family, range = 1--6). 
+Of the 16 families, there were 5 families where the caregivers at some point read text where we could not identify the book title; these utterances were included as read-aloud text in our analyses and were not represented in the book texts (108 utterances total). 
+These read-aloud utterances also represented a small percentage of read-aloud text in the Spanish sample (108 utterances / 1655 read aloud, 6.53%). 
 All confirmed book titles were obtained online (e.g., YouTube read-alouds), at our local library, or purchased.
 
 Books were then categorized in two ways. 
@@ -381,13 +421,13 @@ knitr::include_graphics("figs/speech_sources.pdf", error = FALSE)
 
 \textit{Note:} Book text and the caregiver's (MOT = mother; FAT = father) read aloud speech is bolded. The caregivers' spontaneous tCDS is italicized. Child speech (CHI) is in regular font. Book text in English is from \textit{When We’re Together} by Claire Freedman. Book text in Spanish is from \textit{Clifford y la Hora del Baño} by Norman Bridwell. 
 
-Examples of the four sources of language: (1) book text, (2) read aloud text:, (3) spontaneous speech during book sharing, and (4) spontaneous speech during other activities, for both the English and Spanish samples.
+Examples of the four sources of language: (1) book text, (2) read-aloud text, (3) spontaneous speech during book sharing, and (4) spontaneous speech during other activities, for both the English and Spanish samples.
 :::
 
 @fig-examples outlines the four sources of language analyzed here. 
 First, all book texts were transcribed in their entirety from all confirmed books that were read (in whole or in part) during the episodes. 
 Second, read aloud text consisted of all utterances where it could be determined that the caregiver was reading the book text during book-sharing episodes. 
-Coders used a variety of cues to identify read-aloud speech, including environmental sounds (e.g., pages being turned), a caregiver mentioning the book or its title, and/or the speech occuring in a book-reading register or tone. 
+Coders used a variety of cues to identify read-aloud text, including environmental sounds (e.g., pages being turned), a caregiver mentioning the book or its title, and/or the speech occurring in a book-reading register or tone. 
 All read aloud text was verified using the available texts; minor modifications in wording were acceptable, e.g., omissions or substitutions of words. 
 Next, spontaneous speech during book sharing consisted of all utterances that were spontaneously produced and directed to the child during the book-sharing episodes, but were not identified as book text. 
 Finally, spontaneous-other speech was all tCDS produced during all non-book-sharing episodes (e.g., play, diaper changing). 
@@ -403,22 +443,22 @@ Our first set of analyses used a mega-transcript approach, following @montagWord
 These earlier studies demonstrated that book text has greater lexical diversity than tCDS when considering the number of unique types and type–token ratio curves across a range of token window sizes. 
 Critically, these studies used curated book texts from lists of popular books and compared those texts to the caregiver speech that occurred in transcripts available from CHILDES. 
 In contrast, our analyses pulled both sources of text from the same samples of families, thus ensuring that the speech differed only by the specific factor of interest, i.e., source. 
-Additionally, our analyses parsed two separate sources of speech produced by caregivers, read aloud text and spontaneous-book speech, which had not been examined in previous work.
+Additionally, our analyses parsed two separate sources of speech produced by caregivers, read aloud text, and spontaneous-book speech, which had not been examined in previous work.
 
 ## Measures and analytic strategy
 
 In each language, we concatenated the text from each source (book text, read-aloud text, spontaneous-book, spontaneous-other) to form four mega-transcripts that represented all of the language sources that occurred across all participants. 
-For each mega-transcript, we then drew 100 random samples at sample sizes ranging, in 100 token increments, from 100 to 7,700 tokens (this number was constrained by the size of the smallest source: Spanish spontaneous–book). 
+For each mega-transcript, we then drew 100 random samples at sample sizes ranging, in 100 token increments, from 100 to 7,000 tokens (this number was constrained by the size of the smallest source: Spanish spontaneous–book). 
 At each sample size, we then averaged over the 100 samples to derive the mean type count, i.e., the mean number of different words, per sample size. 
 
-## Results: Analysis 1
+## Results
 
 @fig-types shows the number of unique word types as a function of sample size for each mega-transcript. 
 Each curve represents the number of unique types by sample size for each of the four sources (book text, read aloud text, spontaneous-book, and spontaneous-other) in English- and Spanish-speaking families. 
 Note that the differences among the source types become more pronounced as sample size increases, as found in earlier studies [e.g., @montagWordsChildrenHear2015]. 
 Moreover, replicating @montagWordsChildrenHear2015 and @dawsonFeaturesLexicalRichness2021, we found that book text had more unique word types than speech from spontaneous–other at every sample size. 
 Because we also explored text in read-aloud contexts, we were also able to demonstrate that book texts and read-aloud text tended to travel together, albeit read-aloud text had type counts that were somewhat lower across the range of sample sizes than those in book texts. 
-We also demonstrated that these two text-based sources were more lexically diverse than spontaneous speech to children during both book and non-book activities. 
+We also demonstrated that these two text-based sources were more lexically diverse than spontaneous speech to children during both book-sharing and non-book-sharing activities. 
 Note that while the magnitude of the differences across sources in the English- and Spanish-speaking samples varied, the relative orderings were similar.
 
 ::: {#fig-types}
@@ -453,7 +493,7 @@ Number of unique word types as a function of token sample size per mega-transcri
 
 :::
 
-## Discussion: Analysis 1
+## Discussion
 
 These results replicated the earlier finding that book texts tended to have higher lexical diversity, as measured in terms of both number of unique types and TTR, than tCDS produced in non-book-sharing contexts for any given token sample size [@montagWordsChildrenHear2015; @dawsonFeaturesLexicalRichness2021]. 
 This trend generally held across both English and Spanish families. 
@@ -467,17 +507,17 @@ In our second set of analyses, we used a by-transcript approach that allowed us 
 This approach allowed us to test hypotheses statistically, to control for inter-family variation, and to adopt a more comprehensive approach across multiple dimensions of richness. 
 For lexical richness, we measured lexical diversity, lexical density, and two indices of lexical sophistication (lexical frequency and contextual diversity); for grammatical richness, we measured the mean length of utterance in words (MLU-w) and the proportion of complex utterances.
 
-For Spanish-speaking families, the large majority of speech across all activities was in Spanish (95%; see Bang et al., 2022). 
+For Spanish-speaking families, the large majority of word tokens across all activities was in Spanish (95%; see REF-masked). 
 However, at times when English or bilingual books were read, they may have used both English and Spanish. 
 All text/speech in each source, regardless of the language used, was combined into a single transcript for the computation of all measures. 
 
 ## Measures and analytic strategy
 
 *Lexical diversity.* Single type–token ratio measures are insufficient metrics of lexical diversity as they are sensitive to the length of the document [see e.g., @hessSampleSizeTypeToken1986]; thus, we calculated the measure of textual lexical diversity (MTLD) for each transcript. 
-MTLD is defined as the mean length of sequential word strings in a text that maintain a type-token ratio that exceeds some predetermined threshold [@mccarthyAssessmentRangeUsefulness2005; for further discussion on the length sensitivities of lexical diversity measures, see also @fergadiotisPsychometricEvaluationLexical2015; @mccarthyMTLDVocdHDvalidationStudy2010; @stillsLanguageSampleLength2016a].[^1] 
+MTLD is defined as the mean length of sequential word strings in a text that maintain a type-token ratio that exceeds some predetermined threshold [@mccarthyAssessmentRangeUsefulness2005; for further discussion on the length sensitivities of lexical diversity measures, see also @fergadiotisPsychometricEvaluationLexical2015; @mccarthyMTLDVocdDHDD2010; @stillsLanguageSampleLength2016].[^1] 
 This analysis was conducted using the `koRpus` package in R [@michalkeKoRpusTextAnalysis2021], with a type-token ratio threshold of .72. A higher score on MTLD indicates that a transcript contains more sequences of text that have a high number of different words.
 
-[^1]: Note that MTLD is generally not recommended for texts of $<$ 100 tokens [@koizumiRelationshipsTextLength2012; @mccarthyMTLDVocdHDvalidationStudy2010]; however, removing transcripts of $<$ 100 tokens did not affect the results substantially, so we report the results from the full set of transcripts.
+[^1]: Note that MTLD is generally not recommended for texts of $<$ 100 tokens [@koizumiRelationshipsTextLength2012; @mccarthyMTLDVocdDHDD2010]; however, removing transcripts of $<$ 100 tokens did not affect the results substantially, so we report the results from the full set of transcripts.
 
 *Lexical density.* Following @dawsonFeaturesLexicalRichness2021, lexical density refers to the proportion of all tokens in the transcript that were coded as lexical, rather than non-lexical. 
 Lexical tokens were defined as nouns (excluding proper nouns and pronouns), adjectives, verbs (excluding modal and auxiliary verbs), and deadjectival adverbs. 
@@ -495,7 +535,7 @@ These subtitle corpora had a coverage of `r ls_coverage |> filter(language == "E
 We then calculated the mean of the log reference frequencies for all tokens in each transcript, following @kyleAutomaticallyAssessingLexical2015. 
 A lower score on lexical frequency indicates that a transcript contains more rare words.
 
-*Contextual diversity.* Another measure of lexical sophistication reflects contextual diversity, that is, the proportion of different documents in which a word token appears. 
+*Lexical contextual diversity.* Another measure of lexical sophistication reflects contextual diversity, that is, the proportion of different documents in which a word token appears. 
 As with lexical frequency, we obtained lexical contextual diversity values from the SUBTLEX-US and EsPal reference subtitle corpora, calculating the mean of the log contextual diversities for all tokens in each transcript. 
 This measure has been demonstrated to contribute unique variance to a number of psycholinguistic constructs [e.g., @adelmanContextualDiversityNot2006; @baese-berkLexicalDiversityLexical2021; @kyleRelationshipLexicalSophistication2016]. 
 A lower score on contextual diversity indicates that a transcript contains words used in more unique contexts.
@@ -539,7 +579,7 @@ The full specification of each model was as follows: `value ~ source * language 
 Using the fitted models, we computed pairwise comparisons among estimated marginal means, using Bonferroni corrections for multiple comparisons. 
 If the model indicated significant interaction effects between source and language, we included comparisons across sources by language; if there were no interaction effects between source and language, we only included comparisons across sources.
 
-## Results: Analysis 2
+## Results
 
 @tbl-metrics provides an overview of the descriptive statistics for the six metrics of richness by source and language group.
 
@@ -584,15 +624,21 @@ metrics_out <- bind_rows(all_data_ns_out, full_desc_out)
 
 metrics_out |> 
   mutate(Metric = md(Metric)) |> 
-  gt(rowname_col = "Metric",
-     process_md = TRUE) |> 
+  gt(process_md = TRUE) |> 
   tab_spanner_delim(delim = "_") |> 
   cols_width(
     Metric ~ px(85),
     everything() ~ px(70)
   ) |> 
+  fmt_markdown() |> 
+  cols_align(align = "left", columns = Metric) |> 
   tab_options(
-    table.font.size = px(8)
+    table.font.size = px(8),
+  ) |> 
+  tab_style(
+    style = cell_borders(sides = c("top"), 
+                         weight = px(1)),
+    locations = cells_body(rows = c(3))
   )
 ```
 
@@ -738,8 +784,8 @@ Again, English values were generally higher than those from the Spanish (`r prin
 
 ### Why did language group moderate the effects of MTLD?
 
-To summarize, we found that book text and read-aloud tCDS tended to pattern together, and spontaneous tCDS in book-sharing and non-book-sharing contexts tended to pattern together. 
-These results were broadly consistent across measures, although there was an surprising source-by-language interaction for MTLD, such that book text had significantly higher MTLD than read-aloud in Spanish, but not English. 
+To summarize, we found that book text and read-aloud text tended to pattern together, and spontaneous tCDS in book-sharing and non-book-sharing contexts tended to pattern together. 
+These results were broadly consistent across measures, although there was a surprising source-by-language interaction for MTLD, such that book text had significantly higher MTLD than read-aloud in Spanish, but not English. 
 This finding was unexpected, as it implied that what was read aloud in our Spanish-speaking families differed from what was in the book texts themselves. 
 We thus explored potential moderating factors that may explain this difference. 
 It is important to emphasize that these analyses are exploratory, and are likely underpowered, but they may provide suggestions for future confirmatory research.
@@ -767,11 +813,20 @@ context_list <- book_list |>
   select(-data)
 
 mtld_bt <- mtld_vals |> 
-  mutate(cid = str_match(file_name, ("([0-9]+_context[0-9]+)"))[,2],
+  mutate(cid_orig = str_match(file_name, ("([0-9]+_context[0-9]+(and[0-9]+)*)"))[,2],
+         cid = cid_orig |> str_remove("[0-9]+_context") |> str_split("and"),
          book_title = str_match(file_name, 
                                 ("(?:[A-Z]+_)(.*)(?:_clean.)"))[,2]) |> 
+  unnest(cid) |> 
+  mutate(cid = glue("{family_id}_context{cid}")) |>
   left_join(book_list |> select(-cid), by = "book_title") |> 
   left_join(context_list, by = "cid") |> 
+  group_by(file_name, metric, value, language, source, family_id, cid_orig, 
+           book_title, language_book, language_read, language_group,
+           category_new) |> 
+  summarise(prop_prose = mean(prop_prose, na.rm = TRUE),
+            prop_biling = mean(prop_biling, na.rm = TRUE),
+            .groups = "drop") |> 
   mutate(cat_prose = case_when(category_new == "prose" ~ TRUE,
                                category_new == "rhyme" ~ FALSE,
                                category_new == "frame" ~ FALSE,
@@ -784,7 +839,8 @@ mtld_bt <- mtld_vals |>
          prop_biling = coalesce(lgr_biling, prop_biling),
          prop_biling = ifelse(source %in% c("Book text", "Read-aloud", "Spont-book"),
                            prop_biling, NA)) |> 
-  select(-cat_prose, -lgr_biling)
+  select(-cat_prose, -lgr_biling) |> 
+  arrange(metric, language, source, file_name)
 
 mtld_bt_vals <- mtld_bt |> 
     mutate(is.extreme = is_extreme(value)) |> 
@@ -822,10 +878,10 @@ mtld_bl_cons <- contrast(mtld_bl_emms, method = "pairwise",
                    labels = c("****", "***", "**", "*", "ns", "ns")))
 ```
 
-To address this issue, we split the book texts into monolingual and bilingual books, coding the read-aloud and spontaneous-book tCDS in terms of the proportions of books read within that transcript that were bilingual (i.e., if 1 monolingual and 3 bilingual books were read within a single transcript, then that transcript would be coded as 75% bilingual). 
+To address this issue, we split the book texts into monolingual and bilingual books, coding the read-aloud text and spontaneous-book tCDS in terms of the proportions of books read within that transcript that were bilingual (i.e., if 1 monolingual and 3 bilingual books were read within a single transcript, then that transcript would be coded as 75% bilingual). 
 We then ran a linear mixed-effects model with MTLD as the outcome variable, and source, language group, and bilingual proportion as predictors, along with all interactions. 
 The estimated marginal means are shown in @fig-mtld-lang. 
-Including the proportion of the transcripts that contained bilingual books as a fixed effect did not eliminate the interaction between source and language group ($p$ `r mtld_bl_model |> tidy() |> filter(term == "source1:language1") |> pull(p.value) |> apa_p()`). 
+Including the proportion of the transcripts that contained bilingual books as a fixed effect did not eliminate the interaction between source and language group ($p =$ `r mtld_bl_model |> tidy() |> filter(term == "source1:language1") |> pull(p.value) |> apa_p()`). 
 Post-hoc analyses further indicated that when considering model estimates for monolingual books in the Spanish-speaking families, book text had significantly higher MTLDs than read-aloud text (`r print_res(mtld_bl_cons |> filter(prop_biling == 0), "Spanish", "Book text", "Read-aloud")`), whereas this difference was not significant for English (`r print_res(mtld_bl_cons |> filter(prop_biling == 0), "English", "Book text", "Read-aloud")`).
 
 ::: {#fig-mtld-lang}
@@ -879,13 +935,14 @@ mtld_bt_cons <- contrast(mtld_bt_emms, method = "pairwise",
                    labels = c("****", "***", "**", "*", "ns", "ns")))
 ```
 
-To explore this possibility, we split the book texts into non-prose and prose books, and coded the read-aloud and spontaneous-book tCDS in terms of the proportions of books read within that transcript that were prose. 
+To explore this possibility, we split the book texts into non-prose and prose books, and coded the read-aloud text and spontaneous-book tCDS in terms of the proportions of books read within that transcript that were prose. 
 We then ran a linear mixed-effects model with MTLD as the outcome variable, and source, language group, and prose proportion as predictors, along with all interactions. 
 The estimated marginal means are shown in @fig-mtld-type. 
-The pattern of results was more similar across language groups for prose books, with spontaneous-book speech having lower MTLD than book text for families in both language groups (`r print_res(mtld_bt_cons |> filter(prop_prose == 1), "English", "Book text", "Spont-book")`, `r print_res(mtld_bt_cons |> filter(prop_prose == 1), "Spanish", "Book text", "Spont-book")`).
-Spontaneous-book text had numerically lower MTLD than read-aloud, although this difference was only significant in English (`r print_res(mtld_bt_cons |> filter(prop_prose == 1), "English", "Read-aloud", "Spont-book")`, `r print_res(mtld_bt_cons |> filter(prop_prose == 1), "Spanish", "Read-aloud", "Spont-book")`). 
-However, for non-prose books, book text had significantly greater MTLD than read-aloud (`r print_res(mtld_bt_cons |> filter(prop_prose == 0), "Spanish", "Book text", "Read-aloud")`) and spontaneous–book (`r print_res(mtld_bt_cons |> filter(prop_prose == 0), "Spanish", "Book text", "Spont-book")`) in Spanish, but not in English (both $p$&#8203;s `r mtld_bt_cons |> filter(language == "English", prop_prose == 0, group1 == "Book text") |> pull(p.value) |> min() |> apa_p()`). 
-This suggests that differing proportions of non-narrative books in the two samples of families may explain some of the observed variance in MTLD and the source-by-language interaction.
+Again, the interaction between source and language group was not eliminated by including book type ($p =$ `r mtld_bt_model |> tidy() |> filter(term == "source1:language1") |> pull(p.value) |> apa_p()`). 
+Nonetheless, the pattern of results was numerically more similar across language groups for prose books, as compared with non-prose books.
+Indeed, there was a significant difference between MTLD for prose and non-prose book text for English (`r print_res(mtld_bt_cons |> filter(source == "Book text"), "English", "prop_prose0", "prop_prose1")`), but not for Spanish (`r print_res(mtld_bt_cons |> filter(source == "Book text"), "Spanish", "prop_prose0", "prop_prose1")`).
+Additionally, for the Spanish language group, book text and spontaneous-book had significantly different MTLD for non-prose books (`r print_res(mtld_bt_cons |> filter(prop_prose == 0), "Spanish", "Book text", "Spont-book")`), but this was not the case for the English language group (`r print_res(mtld_bt_cons |> filter(prop_prose == 0), "English", "Book text", "Spont-book")`).
+These results suggest that differing proportions of non-prose books in the two samples of families may explain some (but not all) of the observed variance in MTLD and the source-by-language interaction.
 
 ::: {#fig-mtld-type}
 ```{r}
@@ -912,17 +969,16 @@ Error bars reflect standard errors.
 
 :::
 
-## Discussion: Analysis 2
+## Discussion
 
-Taken together, these analyses showed that book texts and read-aloud speech (speech actually read from those book texts) tended to have greater lexical diversity, higher proportions of content words, contain more rare and distinctive vocabulary words, and be comprised of longer and more morphosyntactically complex sentences than speech that is spoken spontaneously during everyday conversations with young children. 
-Importantly, differences in the types of books (e.g., prose vs. 
-non-prose) that families read could account for some of the observed variance in MTLD across families from different language backgrounds.
+Taken together, these analyses showed that book texts and read-aloud text (speech actually read from those book texts) tended to have greater lexical diversity, higher proportions of content words, contain more rare and distinctive vocabulary words, and be comprised of longer and more morphosyntactically complex sentences than speech that is spoken spontaneously during everyday conversations with young children. 
+Importantly, there was some suggestion that differences in the types of books (e.g., prose vs. non-prose) that families read accounted for some of the observed variance in MTLD across families from different language backgrounds.
 
 # General discussion
 
-In this study, we investigated how sharing books can influence caregiver speech to 2-year-old children. 
+In this study, we investigated how sharing books influences caregiver speech to 2-year-old children. 
 We conducted two types of analyses to explore the linguistic characteristics of different language sources available to young children during everyday activities. 
-The first set of analyses used a "mega transcript" approach that allowed us to model overall trends in lexical diversity across different sources of language, using number of types and the TTR, two measures that have been at the forefront of many previous analyses of linguistic richness [@montagWordsChildrenHear2015; @dawsonFeaturesLexicalRichness2021]. 
+The first set of analyses used a "mega transcript" approach that allowed us to model overall trends in lexical diversity across different sources of language, using the number of types, a measure that has been at the forefront of many previous analyses of linguistic richness [@montagWordsChildrenHear2015; @dawsonFeaturesLexicalRichness2021]. 
 In our second set of analyses, we tested patterns that held across individuals and expanded our view to include six different measures of lexical and grammatical "richness" in speech. 
 In both analyses, we compared across four sources of language (book text, read aloud text, spontaneous tCDS during book sharing, and spontaneous tCDS in other contexts) and between the two language groups (families from English-speaking and Spanish-speaking households). 
 Notably, these two analytic approaches both showed that the distinct "richness" in caregiver speech during book sharing was largely driven by the book text itself. 
@@ -931,26 +987,26 @@ Thus, our findings provided further evidence that written texts are a rich sourc
 Further, we examined the text from books that were specifically available in the homes of the families in our studies---in particular, those of English- and Spanish-speaking families in the western United States. 
 This work is in contrast to prior studies that have conducted similar analyses of texts from curated book lists of popular or best-selling titles for young children. 
 In fact, of the 86 books that were spontaneously read by our families, only 5 were in the 100-book American English corpus analyzed previously by @montagWordsChildrenHear2015. 
-In spite of the different samples of books, our results aligned with these prior studies, such that the text of these books read in the home, both in their entirety and what was read aloud, was richer compared to the spontaneous speech directed to young children during book sharing and other activities.
+In spite of the different samples of books, our results aligned with these prior studies, such that the texts of the books read in the home, both in their entirety and what was read aloud, was richer compared to the spontaneous speech directed to young children during book sharing and other activities.
 
-We found that the richness of book texts and read-aloud text patterned together on most measures, suggesting that caregivers were reading directly from the texts. 
+We found that the richness of book texts and read-aloud texts patterned together on most measures, suggesting that caregivers were reading directly from the texts. 
 While this may not seem surprising at first, this could only be true if, on the whole, caregivers actually read what was in the texts of the books, rather than truncating or simplifying the text of the books. 
 This is an important finding because while the books in the home may be lexically- and grammatically-rich sources of language for children, if caregivers did not stay true to those texts during actual reading (either consciously or unconsciously), their contribution to the linguistic environment of the child could have been diminished. 
 We also found that the features of spontaneous tCDS during book shared patterns with spontaneous tCDS in non-book sharing contexts on most measures. 
 Thus, when caregivers talk with children spontaneously, the features of the tCDS are not necessarily lexically or grammatically richer when it occurs during a book reading session than during other types of activities.
 
 In general, results were similar across the two language groups (English and Spanish) that we sampled. 
-This is especially exciting given that our sample of families represented two prominent language groups in the U.S., expanding on previous work representing only monolingual American and British English. 
+This is especially exciting given that our sample of families represented two prominent language groups in the U.S., expanding on previous work representing only monolingual American and British English-speaking families. 
 One exception to the similarities between the two language groups was that there was a greater difference in the lexical diversity of book texts versus read-aloud text in our Spanish- compared to our English-speaking families. 
 Interestingly, this pattern of findings remained even when we restricted our analyses to books that were written in a single language, rather than bilingual books that, by their nature, are likely to be more lexically diverse. 
-Separating the books into prose and non-prose genres, however, did allow us to account for some of the observed variance between languages in terms of lexical diversity. 
-Non-prose books (e.g., books focused on vocabulary, or nursery rhymes) had greater differences in lexical diversities between the two languages, compared to prose books. This set of findings may have been impacted by our relatively small sample size. 
-Thus, future research should further explore the potential sources of cross-linguistic differences in lexical diversity using larger samples of books and families.
+Separating the books into prose and non-prose genres, however, did suggest that this factor could account for some of the observed variance between languages in terms of lexical diversity, although the results were not statistically reliable given our relatively small sample size. 
+Non-prose books (e.g., books focused on vocabulary, or nursery rhymes) had greater differences in lexical diversities between the two languages, compared to prose books. 
+Future research should further explore the potential sources of cross-linguistic differences in lexical diversity using larger samples of books and families.
 
 Overall, we found that book text and read aloud text were lexically and grammatically richer than spontaneous tCDS on all measures. 
 Thus, the richness of language during book sharing is largely driven by the characteristics of the book texts that are read aloud, rather than by the spontaneous speech that also occurs during book sharing. 
-Read-aloud text is just one part of the language experienced by children in these book-sharing activities. 
-As caregivers read a book aloud, the accompanying spontaneous speech, while not as lexically or grammatically rich as the text in the books, may nevertheless serve other important functions. 
+Nevertheless, read-aloud text is just one part of the language experienced by children in these book-sharing activities. 
+As caregivers read a book aloud, the accompanying spontaneous speech, while not as lexically or grammatically rich as the text in the books, may still serve other important functions. 
 For example, a caregiver may read aloud a multi-clause sentence with a sophisticated vocabulary word and then stop to say, "yeah, you see," or respond to a child's repetition of the word with "that's right." Such extratextual speech may help to affirm children's understanding, promote the child's engagement with the book, highlight the rich language, and prompt dialogue, which in turn may support children's learning [e.g., @blewittLearningWordsShared2016; @molAddedValueDialogic2008; @readItsTalkThat2023].
 
 ## Limitations
@@ -970,8 +1026,15 @@ Previous research has demonstrated impacts on the amount of spontaneous talk in 
 "low text" or whether books are considered "informative" vs. "narrative" in genre [@andersonExaminingEffectsGender2004; @fletcherRoleBookFamiliarity2014; @priceTalkBookSharing2009; @readItsTalkThat2023] often revealing an inverse relationship wherein less book text induces more spontaneous speech. 
 Investigating the impacts of book type on measures of richness more fully, with larger naturally selected corpora of books chosen and read in the home, could further deepen our understanding of the benefits of shared reading for young children's language learning.
 
-Finally, we sampled only a few of the shared reading episodes that were likely to have occurred in our families. 
-Our analyses were based on day-long audio recordings, and were limited to families with 2-year-old children. 
+We adopted a volume sampling approach, choosing the segments of densest speech, which were more likely to contain our phenomenon of interest, namely, book sharing [@casillasStepbystepGuideCollecting2019].
+Previous studies have shown that measures of adult-word counts are highly correlated across sampling approaches [@bangTimeTalkMultiple2022].
+At the same time, sampling strategy affects estimates of certain features of language input to children, including the proportion of speech that is produced with child-directed prosody and the conversational turn count [@ferjanramirezEstimatingInfantsLanguage2024].
+It is possible that lexical and grammatical features may also be affected by the sampling approach—for example, less dense moments may be more lexically diverse if there are fewer repetitions of words.
+Another limitation of volume sampling is that the extracted segments may not have captured the boundaries of activity episodes, thus the transcripts we obtained may have underestimated the true duration of activity episodes.
+Further research is needed to determine the extent to which measures of lexical and grammatical richness vary as a function of  adult speech density.
+
+Finally, our day-long recordings sampled only a few of the shared reading episodes that may have occurred in our families. 
+Our analyses were limited to families with 2-year-old children. 
 The books that caregivers read and the types of talk that they use while reading are likely to become more lexically diverse, sophisticated, and grammatically complex as children progress from toddlerhood through preschool. 
 Research has demonstrated that the amount and content of extratextual book sharing talk also varies with child age and ability [@mcarthurStoriesBecomeFamiliar2005; @peraltademendozaDevelopmentalChangesSocioeconomic1995; @wheelerContextrelatedAgeChanges1983]. 
 Thus, further research should explore how the linguistic richness of caregiver speech might change along with a child's development.
@@ -979,7 +1042,7 @@ Thus, further research should explore how the linguistic richness of caregiver s
 # Conclusion
 
 The results from this study illustrated several ways in which words on the page have tremendous power for exposing children to rich language. 
-Using day-long recordings, we explored the lexical and grammatical features of speech produced in naturally-occurring book-sharing episodes and other activities with young children. 
+Using day-long audio recordings, we explored the lexical and grammatical features of speech produced in naturally occurring book-sharing episodes and other activities with young children. 
 In two quantitative analyses and across two language groups, we extended earlier findings that speech based on book texts was more lexically diverse and grammatically complex than spontaneous child-directed speech. 
 These findings highlight that linguistic richness varies both within and across activities and provide a strong empirical basis for understanding how book sharing positively impacts child language outcomes.
 
