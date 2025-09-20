@@ -268,7 +268,7 @@ demogs |>
               names_vary = "slowest") |> 
   mutate(variable = c(
     "Age (months)",
-    "% male",
+    "% boys",
     "Maternal education (years)",
     "1",
     "2",
